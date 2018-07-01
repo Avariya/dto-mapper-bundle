@@ -1,0 +1,81 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: true
+
+    MapperBundle\:
+        resource: '../../*'
+        exclude: '../../{DependencyInjection}'
+
+    MapperBundle\Mapping\MappingRegistry:
+    MapperBundle\Mapping\Mapper:
+    MapperBundle\Mapping\MapperInterface: '@MapperBundle\Mapping\Mapper'
+    MapperBundle\Hydrator\ArraySerializableHydrator:
+    MapperBundle\Hydrator\NamingStrategy\SnakeCaseNamingStrategy:
+    MapperBundle\Hydrator\NamingStrategy\UnderscoreNamingStrategy:
+    MapperBundle\Hydrator\NamingStrategy\ArrayMapNamingStrategy:
+
+    MapperBundle\Hydrator\Strategy\PropertyCollectionRelatingStrategy:
+        arguments:
+            $hydrator: '@MapperBundle\Hydrator\ArraySerializableHydrator'
+            $mappingRegistry: '@MapperBundle\Mapping\MappingRegistry'
+
+    MapperBundle\Hydrator\ArrayHydrator: '@MapperBundle\Hydrator\ArraySerializableHydrator'
+        calls:
+          - method: setNamingStrategy
+            arguments:
+                - '@MapperBundle\Hydrator\NamingStrategy\SnakeCaseNamingStrategy'
+          - method: addStrategy
+            arguments:
+                - 'MapperBundle\Hydrator\Strategy\PropertyCollectionRelatingStrategy'
+                - '@MapperBundle\Hydrator\Strategy\PropertyCollectionRelatingStrategy'
+
+    MapperBundle\Hydrator\ArraySerializable: '@MapperBundle\Hydrator\ArraySerializableHydrator'
+        calls:
+          - method: removeNamingStrategy
+          - method: addStrategy
+            arguments:
+                - 'MapperBundle\Hydrator\Strategy\PropertyCollectionRelatingStrategy'
+                - '@MapperBundle\Hydrator\Strategy\PropertyCollectionRelatingStrategy'
+
+    MapperBundle\Hydrator\ArraySerializer: '@MapperBundle\Hydrator\ArraySerializableHydrator'
+        calls:
+          - method: setNamingStrategy
+            arguments:
+                - '@MapperBundle\Hydrator\NamingStrategy\ArrayMapNamingStrategy'
+
+    MapperBundle\Hydrator\ArrayExtractor: '@MapperBundle\Hydrator\ArraySerializableHydrator'
+        calls:
+          - method: setNamingStrategy
+            arguments:
+                - '@MapperBundle\Hydrator\NamingStrategy\UnderscoreNamingStrategy'
+
+    # Todo: implement cache
+    # MapperBundle\Command\WarmupCacheCommand:
+    #  tags:
+    #    - console.command
+
+    # Todo: implement object:class, object:object
+    MapperBundle\Hydrator\HydratorRegistry:
+        tags:
+          - dto_mapper.hydrator.registry
+        calls:
+          - method: registerHydrator
+            arguments:
+              $hydrator: '@MapperBundle\Hydrator\Strategy\PropertyCollectionRelatingStrategy'
+              $types: 'array:class'
+          - method: registerHydrator
+            arguments:
+              $hydrator: '@MapperBundle\Hydrator\Strategy\PropertyCollectionRelatingStrategy'
+              $types: 'array:object'
+
+          - method: registerHydrator
+            arguments:
+              $hydrator: '@MapperBundle\Hydrator\ArrayExtractor'
+              $types: 'object:array'
+
+          - method: registerHydrator
+            arguments:
+              $hydrator: '@MapperBundle\Hydrator\ArraySerializer'
+              $types: 'array:array'
