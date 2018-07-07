@@ -1,5 +1,5 @@
 {
-  "name": "vklymniuk/dto-mapper",
+  "name": "vklymniuk/dto-mapper-bundle",
   "type": "symfony-bundle",
   "description": "Symfony bundle, easy way mapping data to DTO objects",
   "license": "MIT",
@@ -10,13 +10,18 @@
     }
   ],
   "require": {
-    "php": "^7.2",
-    "ocramius/generated-hydrator": "^2.2",
+    "php": "^7.1",
     "indigophp/doctrine-annotation-autoload": "^0.1.0",
+    "symfony/http-kernel": "^4.0",
+    "symfony/dependency-injection": "^4.0",
+    "symfony/config": "^4.0",
+    "vklymniuk/dto-mapper": "dev-master"
+  },
+  "require-dev": {
     "phpunit/phpunit": "^7.2"
   },
   "autoload":     {
-    "psr-4": { "MapperBundle\\": "src/" }
+    "psr-4": { "DTOMapperBundle\\": "src/" }
   },
   "autoload-dev": {
     "psr-4": { "Tests\\": "tests/" }
@@ -31,7 +36,6 @@
     "object conversion",
     "serializer"
   ],
-  "minimum-stability": "stable",
   "scripts": {
     "test": "phpunit"
   }

@@ -2,7 +2,7 @@
 
 namespace MapperBundle\DependencyInjection\Compiler;
 
-use MapperBundle\Mapping\MappingRegistry;
+//use MapperBundle\Mapping\MappingRegistry;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
@@ -18,12 +18,12 @@ class MappingCompilePass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        $taggedObjects = $container->findTaggedServiceIds(self::DTO_MAPPER_DESTINATION_TAG);
-        $definition = $container->getDefinition(MappingRegistry::class);
-
-        foreach ($taggedObjects as $id => $tag) {
-            $destinationClass = $container->findDefinition($id)->getClass();
-            $definition->addMethodCall('registerMappedDestinationClass', [$destinationClass]);
-        }
+//        $taggedObjects = $container->findTaggedServiceIds(self::DTO_MAPPER_DESTINATION_TAG);
+//        $definition = $container->getDefinition(MappingRegistry::class);
+//
+//        foreach ($taggedObjects as $id => $tag) {
+//            $destinationClass = $container->findDefinition($id)->getClass();
+//            $definition->addMethodCall('registerMappedDestinationClass', [$destinationClass]);
+//        }
     }
 }
