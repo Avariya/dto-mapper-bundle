@@ -8,25 +8,13 @@ use Doctrine\Common\Annotations\Annotation;
  * @Annotation
  * @Annotation\Target({"PROPERTY", "ANNOTATION"})
  */
-class XPathStrategy implements StrategyInterface
+class XPathStrategy extends AbstractStrategy
 {
     /**
-     * @Annotation\Required()
-     */
-    public $sourceClass;
-
-    /**
-     * @Annotation\Required()
+     * @Required
+     * @var string
      */
     public $xPath;
-
-    /**
-     * @return string
-     */
-    public function getSourceClass(): string
-    {
-        return $this->sourceClass;
-    }
 
     /**
      * @return string

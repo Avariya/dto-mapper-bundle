@@ -6,30 +6,35 @@ use Doctrine\Common\Annotations\Annotation;
 
 /**
  * @Annotation
- * @Annotation\Target({"PROPERTY", "ANNOTATION"})
+ * @Target({"PROPERTY", "ANNOTATION"})
  */
-class ServiceClosureStrategy implements StrategyInterface
+class ServiceClosureStrategy extends AbstractStrategy
 {
     /**
-     * @Annotation\Required()
+     * @Required
+     * @var string
      */
-    public $sourceClass;
+    public $provider;
 
     /**
-     * @Annotation\Required()
+     * @Required
+     * @var string
      */
-    public $closureProvider;
-
-    /**
-     * @Annotation\Required()
-     */
-    public $closureMethod;
+    public $method;
 
     /**
      * @return string
      */
-    public function getSourceClass(): string
+    public function getProvider(): string
     {
-        return $this->sourceClass;
+        return $this->provider;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMethod(): string
+    {
+        return $this->method;
     }
 }

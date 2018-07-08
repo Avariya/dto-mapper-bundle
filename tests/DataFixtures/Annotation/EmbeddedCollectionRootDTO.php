@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\DataFixtures\Dto;
+namespace Tests\DataFixtures\Annotation;
 
 use DTOMapperBundle\Annotation\MappingMeta\DestinationClass;
 use DTOMapperBundle\Annotation\MappingMeta\NamingStrategy;
@@ -21,7 +21,7 @@ class EmbeddedCollectionRootDTO
     /**
      * @var EmbeddedCollectionNodeDTO
      * @EmbeddedCollection(
-     *      target="\Tests\DataFixtures\Dto\EmbeddedCollectionNodeDTO"
+     *      target="Tests\DataFixtures\Annotation\EmbeddedCollectionNodeDTO"
      *  )
      */
     public $singleNode;
@@ -29,7 +29,7 @@ class EmbeddedCollectionRootDTO
     /**
      * @var EmbeddedCollectionNodeDTO[]
      * @EmbeddedCollection(
-     *     target="\Tests\DataFixtures\Dto\EmbeddedCollectionNodeDTO",
+     *     target="Tests\DataFixtures\Annotation\EmbeddedCollectionNodeDTO",
      *     multi=true
      * )
      */

@@ -8,29 +8,16 @@ use Doctrine\Common\Annotations\Annotation;
  * @Annotation
  * @Annotation\Target({"PROPERTY", "ANNOTATION"})
  */
-class ChainStrategy implements StrategyInterface
+class ChainStrategy extends AbstractStrategy
 {
     /**
-     * @Annotation\Required()
-     */
-    public $sourceClass;
-
-    /**
-     * @Annotation\Required()
+     * @Required
      * @var array<DTOMapperBundle\Annotation\MappingMeta\Strategy\StrategyInterface>
      */
     public $list = [];
 
     /**
-     * @return string
-     */
-    public function getSourceClass(): string
-    {
-        return $this->sourceClass;
-    }
-
-    /**
-     * @return string[]
+     * @return StrategyInterface[]
      */
     public function getList(): array
     {

@@ -6,21 +6,9 @@ use Doctrine\Common\Annotations\Annotation;
 
 /**
  * @Annotation
- * @Annotation\Target({"CLASS","ANNOTATION"})
+ * @Target({"CLASS","ANNOTATION"})
  */
-class IdentityNamingStrategy implements NamingStrategyInterface
+class IdentityNamingStrategy extends AbstractNamingStrategy
 {
-    /**
-     * @Annotation\Required()
-     * @var string
-     */
-    public $source;
 
-    /**
-     * @return string
-     */
-    public function getSource(): string
-    {
-        return $this->source;
-    }
 }

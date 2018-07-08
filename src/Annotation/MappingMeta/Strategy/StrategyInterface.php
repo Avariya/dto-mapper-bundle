@@ -7,5 +7,8 @@ namespace DTOMapperBundle\Annotation\MappingMeta\Strategy;
  */
 interface StrategyInterface
 {
-
+    /**
+     * @return string
+     */
+    public function getSource(): string;
 }

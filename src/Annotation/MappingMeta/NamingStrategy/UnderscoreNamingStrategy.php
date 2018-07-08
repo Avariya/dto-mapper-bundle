@@ -8,18 +8,7 @@ use Doctrine\Common\Annotations\Annotation;
  * @Annotation
  * @Annotation\Target({"CLASS","ANNOTATION"})
  */
-class UnderscoreNamingStrategy implements NamingStrategyInterface
+class UnderscoreNamingStrategy extends AbstractNamingStrategy
 {
-    /**
-     * @Annotation\Required()
-     */
-    public $source;
 
-    /**
-     * @return string
-     */
-    public function getSource(): string
-    {
-        return $this->source;
-    }
 }

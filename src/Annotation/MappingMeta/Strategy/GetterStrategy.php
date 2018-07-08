@@ -8,31 +8,19 @@ use Doctrine\Common\Annotations\Annotation;
  * @Annotation
  * @Annotation\Target({"PROPERTY", "ANNOTATION"})
  */
-class GetterStrategy implements StrategyInterface
+class GetterStrategy extends AbstractStrategy
 {
     /**
-     * @Annotation\Required()
+     * @Required
+     * @var string
      */
-    public $sourceClass;
-
-    /**
-     * @Annotation\Required()
-     */
-    public $getterMethod;
+    public $method;
 
     /**
      * @return string
      */
-    public function getSourceClass(): string
+    public function getMethod(): string
     {
-        return $this->sourceClass;
-    }
-
-    /**
-     * @return string
-     */
-    public function getGetterMethod(): string
-    {
-        return $this->getterMethod;
+        return $this->method;
     }
 }

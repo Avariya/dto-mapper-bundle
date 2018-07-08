@@ -3,22 +3,21 @@
 namespace DTOMapperBundle\Annotation\MappingMeta\Strategy;
 
 use Doctrine\Common\Annotations\Annotation;
-use DTOMapperBundle\Annotation\MappingMeta\NamingStrategy\NamingStrategyInterface;
 
 /**
  * @Annotation
- * @Annotation\Target({"PROPERTY"})
+ * @Target({"PROPERTY"})
  */
 class StrategyRegister
 {
     /**
-     * @Annotation\Required()
-     * @var array<DTOMapperBundle\Annotation\MappingMeta\NamingStrategy\NamingStrategyInterface>
+     * @Required
+     * @var array<DTOMapperBundle\Annotation\MappingMeta\Strategy\StrategyInterface>
      */
     public $for = [];
 
     /**
-     * @return NamingStrategyInterface[]
+     * @return StrategyInterface[]
      */
     public function getFor(): array
     {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\DataFixtures\Dto;
+namespace Tests\DataFixtures\Annotation;
 
 /**
  * Class EmbeddedCollectionNodeDTO

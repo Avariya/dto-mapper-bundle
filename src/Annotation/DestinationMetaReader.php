@@ -2,7 +2,6 @@
 
 namespace DTOMapperBundle\Annotation;
 
-use Doctrine\Common\Annotations\Reader;
 use DTOMapperBundle\Annotation\Exception\DestinationClassException;
 use DTOMapperBundle\Annotation\MappingMeta\DestinationClass;
 use DTOMapperBundle\Annotation\MappingMeta\EmbeddedCollection;
@@ -10,6 +9,8 @@ use DTOMapperBundle\Annotation\MappingMeta\NamingStrategy\NamingRegister;
 use DTOMapperBundle\Annotation\MappingMeta\NamingStrategy\NamingStrategyInterface;
 use DTOMapperBundle\Annotation\MappingMeta\Strategy\StrategyInterface;
 use DTOMapperBundle\Annotation\MappingMeta\Strategy\StrategyRegister;
+
+use Doctrine\Common\Annotations\Reader;
 
 /**
  * Class DestinationMetaReader
@@ -22,11 +23,6 @@ class DestinationMetaReader
     private $reader;
 
     /**
-     * @var \ReflectionClass
-     */
-    private $reflectionClass;
-
-    /**
      * @var EmbeddedCollection[]
      */
     private $relationsProperties = [];
@@ -37,6 +33,13 @@ class DestinationMetaReader
     private $namingStrategies = [];
 
     /**
+     * @var StrategyInterface[]
+     */
+    private $propertiesStrategies = [];
+
+    /**
+     * @throws DestinationClassException
+     *
      * @param Reader $reader
      * @param string $className
      *
@@ -48,6 +51,32 @@ class DestinationMetaReader
     }
 
     /**
+     * @return EmbeddedCollection[]
+     */
+    public function getRelationsProperties(): array
+    {
+        return $this->relationsProperties;
+    }
+
+    /**
+     * @return NamingStrategyInterface[]
+     */
+    public function getNamingStrategies(): array
+    {
+        return $this->namingStrategies;
+    }
+
+    /**
+     * @return StrategyInterface[]
+     */
+    public function getPropertiesStrategies(): array
+    {
+        return $this->propertiesStrategies;
+    }
+
+    /**
+     * @throws DestinationClassException
+     *
      * DestinationMetaReader constructor.
      *
      * @param Reader $reader
@@ -56,45 +85,57 @@ class DestinationMetaReader
     private function __construct(Reader $reader, string $className)
     {
         $this->reader = $reader;
-        $this->reflectionClass = new \ReflectionClass($className);
-        $this
-            ->loadClassAnnotations()
-            ->loadPropertiesAnnotations()
-        ;
-    }
-
-    /**
-     * @throws DestinationClassException
-     *
-     * @return DestinationMetaReader
-     */
-    private function loadClassAnnotations(): self
-    {
-        $isDestination = $this->reader->getClassAnnotation($this->reflectionClass, DestinationClass::class);
+        $reflectionClass = new \ReflectionClass($className);
+        $isDestination = $this->reader->getClassAnnotation($reflectionClass, DestinationClass::class);
 
         if (!$isDestination) {
             throw new DestinationClassException(
-                $this->reflectionClass->getName() . ' - not registered as DestinationClass'
+                $reflectionClass->getName() . ' - is not registered as DestinationClass.'
             );
         }
-        $this->namingStrategies = $this->getRegisteredNamingStrategies(
-            NamingRegister::class,
-            NamingStrategyInterface::class
+
+        $this
+            ->loadClassAnnotations($reflectionClass)
+            ->loadPropertiesAnnotations($reflectionClass);
+    }
+
+    /**
+     * @param \ReflectionClass $reflectionClass
+     *
+     * @return DestinationMetaReader
+     */
+    private function loadClassAnnotations(\ReflectionClass $reflectionClass): self
+    {
+        $namingRegister = $this->reader->getClassAnnotation($reflectionClass, NamingRegister::class);
+        $registered = $namingRegister !== null ? $namingRegister->getFor() : [];
+        $filteredNaming = \array_filter(
+            $this->reader->getClassAnnotations($reflectionClass),
+            function ($annotation): bool {
+                return \is_a($annotation, NamingStrategyInterface::class);
+            }
+        );
+
+        $this->namingStrategies = array_merge(
+            \array_values($registered),
+            \array_values($filteredNaming)
         );
 
         return $this;
     }
 
     /**
+     * @param \ReflectionClass $reflectionClass
+     *
      * @return DestinationMetaReader
      */
-    private function loadPropertiesAnnotations(): self
+    private function loadPropertiesAnnotations(\ReflectionClass $reflectionClass): self
     {
-        $reflectionProperties = $this->reflectionClass->getProperties();
+        $reflectionProperties = $reflectionClass->getProperties();
+
         foreach ($reflectionProperties as $property) {
             $this
-                ->processPropertyRelationAnnotation($property);
-//                ->processPropertyStrategyAnnotation($property);
+                ->processPropertyRelationAnnotation($property)
+                ->processPropertyStrategyAnnotation($property);
         }
 
         return $this;
@@ -123,34 +164,20 @@ class DestinationMetaReader
      */
     private function processPropertyStrategyAnnotation(\ReflectionProperty $property): self
     {
-        $this->namingStrategies = $this->getRegisteredStrategies(
-            StrategyRegister::class,
-            StrategyInterface::class
+        $filtered = \array_filter(
+            $this->reader->getPropertyAnnotations($property),
+            function ($annotation): bool {
+                return \is_a($annotation, StrategyInterface::class);
+            }
         );
-    }
 
-    /**
-     * @param string $registerClass
-     * @param string $filterClass
-     *
-     * @return array
-     */
-    private function getRegisteredNamingStrategies($registerClass, $filterClass): array
-    {
-        $namingRegister = $this->reader->getClassAnnotation($this->reflectionClass, $registerClass);
-        $registered = $namingRegister !== null ? $namingRegister->getFor() : [];
-
-        /** @todo: clean it */
-        return array_merge(
-            \array_values($registered),
-            \array_values(
-                \array_filter(
-                    $this->reader->getClassAnnotations($this->reflectionClass),
-                    function ($annotation) use ($filterClass) {
-                        return ($annotation instanceof $filterClass);
-                    }
-                )
-            )
+        $registered = $this->reader->getPropertyAnnotation($property, StrategyRegister::class);
+        $registered = $registered !== null ? $registered->getFor() : [];
+        $this->propertiesStrategies[$property->getName()] = \array_merge(
+            \array_values($filtered),
+            \array_values($registered)
         );
+
+        return $this;
     }
 }

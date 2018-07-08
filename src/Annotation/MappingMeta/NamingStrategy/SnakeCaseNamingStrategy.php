@@ -8,19 +8,7 @@ use Doctrine\Common\Annotations\Annotation;
  * @Annotation
  * @Annotation\Target({"CLASS","ANNOTATION"})
  */
-class SnakeCaseNamingStrategy implements NamingStrategyInterface
+class SnakeCaseNamingStrategy extends AbstractNamingStrategy
 {
-    /**
-     * @Annotation\Required()
-     * @var string
-     */
-    public $source;
 
-    /**
-     * @return string
-     */
-    public function getSource(): string
-    {
-        return $this->source;
-    }
 }

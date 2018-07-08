@@ -8,44 +8,33 @@ use Doctrine\Common\Annotations\Annotation;
  * @Annotation
  * @Annotation\Target({"PROPERTY", "ANNOTATION"})
  */
-class StaticClosureStrategy implements StrategyInterface
+class StaticClosureStrategy extends AbstractStrategy
 {
     /**
-     * @Annotation\Required()
+     * @Required
+     * @var string
      */
-    public $sourceClass;
+    public $provider;
 
     /**
-     * @Annotation\Required()
+     * @Required
+     * @var string
      */
-    public $closureProvider;
-
-    /**
-     * @Annotation\Required()
-     */
-    public $closureMethod;
+    public $method;
 
     /**
      * @return string
      */
-    public function getSourceClass(): string
+    public function getProvider(): string
     {
-        return $this->sourceClass;
+        return $this->provider;
     }
 
     /**
      * @return string
      */
-    public function getClosureProvider(): string
+    public function getMethod(): string
     {
-        return $this->closureProvider;
-    }
-
-    /**
-     * @return string
-     */
-    public function getClosureMethod(): string
-    {
-        return $this->closureMethod;
+        return $this->method;
     }
 }
