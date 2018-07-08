@@ -1,12 +1,12 @@
 <?php
 
-namespace MapperBundle\Mapping\Annotation\Meta;
+namespace DTOMapperBundle\Annotation\MappingMeta;
 
 use Doctrine\Common\Annotations\Annotation;
 
 /**
  * @Annotation
- * @Target("CLASS")
+ * @Annotation\Target("CLASS")
  */
 class DestinationClass
 {

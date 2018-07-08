@@ -3,7 +3,9 @@ services:
         autowire: true
         autoconfigure: true
         public: true
-#
+
+
+#     DTOMapperBundle\Mapping\Meta:
 #    MapperBundle\:
 #        resource: '../../*'
 #        exclude: '../../{DependencyInjection}'

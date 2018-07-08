@@ -1,15 +1,15 @@
 <?php
 
-namespace MapperBundle;
+namespace DTOMapperBundle;
 
-use MapperBundle\DependencyInjection\Compiler\MappingCompilePass;
+use DTOMapperBundle\DependencyInjection\Compiler\MappingCompilePass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 /**
- * Class MapperBundle
+ * Class DTOMapperBundle
  */
-class MapperBundle extends Bundle
+class DTOMapperBundle extends Bundle
 {
     /**
      * @param ContainerBuilder $container

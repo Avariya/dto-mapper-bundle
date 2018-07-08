@@ -1,6 +1,6 @@
 <?php
 
-namespace MapperBundle\Mapping\Annotation\Exception;
+namespace DTOMapperBundle\Annotation\Exception;
 
 /**
  * Class InvalidArgumentException

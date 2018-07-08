@@ -1,6 +1,6 @@
 <?php
 
-namespace MapperBundle\DependencyInjection\Compiler;
+namespace DTOMapperBundle\DependencyInjection\Compiler;
 
 //use MapperBundle\Mapping\MappingRegistry;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;

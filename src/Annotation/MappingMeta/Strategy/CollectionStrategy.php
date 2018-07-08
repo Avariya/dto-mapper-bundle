@@ -1,17 +1,17 @@
 <?php
 
-namespace MapperBundle\Mapping\Annotation\Meta\Strategy;
+namespace DTOMapperBundle\Annotation\MappingMeta\Strategy;
 
 use Doctrine\Common\Annotations\Annotation;
 
 /**
  * @Annotation
- * @Target({"PROPERTY"})
+ * @Annotation\Target({"PROPERTY", "ANNOTATION"})
  */
-class CollectionStrategy extends Annotation
+class CollectionStrategy implements StrategyInterface
 {
     /**
-     * @Required
+     * @Annotation\Required()
      */
     public $targetClass;
 

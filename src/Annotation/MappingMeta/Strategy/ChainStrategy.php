@@ -1,23 +1,23 @@
 <?php
 
-namespace MapperBundle\Mapping\Annotation\Meta\Strategy;
+namespace DTOMapperBundle\Annotation\MappingMeta\Strategy;
 
 use Doctrine\Common\Annotations\Annotation;
 
 /**
  * @Annotation
- * @Target({"PROPERTY"})
+ * @Annotation\Target({"PROPERTY", "ANNOTATION"})
  */
-class ChainStrategy
+class ChainStrategy implements StrategyInterface
 {
     /**
-     * @Required
+     * @Annotation\Required()
      */
     public $sourceClass;
 
     /**
-     * @Required
-     * @var array
+     * @Annotation\Required()
+     * @var array<DTOMapperBundle\Annotation\MappingMeta\Strategy\StrategyInterface>
      */
     public $list = [];
 

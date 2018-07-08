@@ -1,8 +1,8 @@
 <?php
 
-namespace MapperBundle\Mapping\Annotation;
+namespace DTOMapperBundle\Mapping\Annotation;
 
-use MapperBundle\Mapping\Annotation\Exception\UndeclaredPropertyException;
+use DTOMapperBundle\Annotation\Exception\UndeclaredPropertyException;
 
 /**
  * Interface PropertyRelationsInterface
