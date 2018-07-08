@@ -13,9 +13,9 @@ use DTOMapperBundle\Annotation\MappingMeta\Strategy\StrategyRegister;
 use Doctrine\Common\Annotations\Reader;
 
 /**
- * Class DestinationMetaReader
+ * Class MappingMetaReader
  */
-class DestinationMetaReader
+class MappingMetaReader
 {
     /**
      * @var Reader
@@ -43,7 +43,7 @@ class DestinationMetaReader
      * @param Reader $reader
      * @param string $className
      *
-     * @return DestinationMetaReader
+     * @return MappingMetaReader
      */
     public static function createReader(Reader $reader, string $className): self
     {
@@ -77,7 +77,7 @@ class DestinationMetaReader
     /**
      * @throws DestinationClassException
      *
-     * DestinationMetaReader constructor.
+     * MappingMetaReader constructor.
      *
      * @param Reader $reader
      * @param string $className
@@ -102,7 +102,7 @@ class DestinationMetaReader
     /**
      * @param \ReflectionClass $reflectionClass
      *
-     * @return DestinationMetaReader
+     * @return MappingMetaReader
      */
     private function loadClassAnnotations(\ReflectionClass $reflectionClass): self
     {
@@ -126,7 +126,7 @@ class DestinationMetaReader
     /**
      * @param \ReflectionClass $reflectionClass
      *
-     * @return DestinationMetaReader
+     * @return MappingMetaReader
      */
     private function loadPropertiesAnnotations(\ReflectionClass $reflectionClass): self
     {
@@ -144,7 +144,7 @@ class DestinationMetaReader
     /**
      * @param \ReflectionProperty $property
      *
-     * @return DestinationMetaReader
+     * @return MappingMetaReader
      */
     private function processPropertyRelationAnnotation(\ReflectionProperty $property): self
     {
@@ -160,7 +160,7 @@ class DestinationMetaReader
     /**
      * @param \ReflectionProperty $property
      *
-     * @return DestinationMetaReader
+     * @return MappingMetaReader
      */
     private function processPropertyStrategyAnnotation(\ReflectionProperty $property): self
     {

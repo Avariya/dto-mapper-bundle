@@ -37,6 +37,9 @@
     "serializer"
   ],
   "scripts": {
-    "test": "phpunit"
+    "test": "phpunit",
+    "post-install-cmd": [
+      "composer dump-autoload"
+    ]
   }
 }

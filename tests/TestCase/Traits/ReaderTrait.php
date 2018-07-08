@@ -3,7 +3,7 @@
 namespace Tests\TestCase\Traits;
 
 use Doctrine\Common\Annotations\AnnotationReader;
-use DTOMapperBundle\Annotation\DestinationMetaReader;
+use DTOMapperBundle\Annotation\MappingMetaReader;
 
 /**
  * Trait ReaderTrait
@@ -13,11 +13,11 @@ trait ReaderTrait
     /**
      * @param string $className
      *
-     * @return DestinationMetaReader
+     * @return MappingMetaReader
      */
-    protected function createReader(string $className): DestinationMetaReader
+    protected function createReader(string $className): MappingMetaReader
     {
-        return DestinationMetaReader::createReader(
+        return MappingMetaReader::createReader(
             new AnnotationReader(),
             $className
         );
