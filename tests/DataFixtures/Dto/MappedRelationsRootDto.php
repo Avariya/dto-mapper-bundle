@@ -16,7 +16,7 @@ class MappedRelationsRootDto
     /**
      * @var MappedRelationsNodeDto
      * @EmbeddedCollection(
-     *      target="\Tests\DataFixtures\Dto\MappedRelationsNodeDto"
+     *      target="Tests\DataFixtures\Dto\MappedRelationsNodeDto"
      *  )
      */
     public $nodeA;
@@ -24,7 +24,7 @@ class MappedRelationsRootDto
     /**
      * @var MappedRelationsNodeDto
      * @EmbeddedCollection(
-     *      target="\Tests\DataFixtures\Dto\MappedRelationsNodeDto"
+     *      target="Tests\DataFixtures\Dto\MappedRelationsNodeDto"
      *  )
      */
     public $nodeB;

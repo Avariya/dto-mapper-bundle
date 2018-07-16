@@ -158,7 +158,7 @@ class MappingCompilePass implements CompilerPassInterface
             $namingStrategyRegistry->addMethodCall(
                 'registerNamingStrategy',
                 [
-                    TypeResolver::getHydratedType($namingStrategy->getSource(), $destination),
+                    TypeResolver::getStrategyType($namingStrategy->getSource(), $destination),
                     new Reference($namingStrategy->getStrategyClassName()),
                 ]
             );

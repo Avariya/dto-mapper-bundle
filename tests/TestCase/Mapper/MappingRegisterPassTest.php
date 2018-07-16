@@ -44,6 +44,11 @@ class MappingRegisterPassTest extends KernelTestCase
                             'property_a'=> 'propertyA1',
                             'property_b'=> 'propertyB1',
                             'property_c'=> 'propertyC1',
+                            'node_a' => [
+                                    'property_a'=> 'propertyA1',
+                                    'property_b'=> 'propertyB1',
+                                    'property_c'=> 'propertyC1',
+                            ],
                         ],
                     ],
                     'node_b' => [
@@ -54,6 +59,11 @@ class MappingRegisterPassTest extends KernelTestCase
                             'property_a'=> 'propertyA1',
                             'property_b'=> 'propertyB1',
                             'property_c'=> 'propertyC1',
+                            'node_a' => [
+                                'property_a'=> 'propertyA1',
+                                'property_b'=> 'propertyB1',
+                                'property_c'=> 'propertyC1',
+                            ],
                         ],
                     ],
                     'event' => [

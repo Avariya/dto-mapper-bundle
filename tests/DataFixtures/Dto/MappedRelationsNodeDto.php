@@ -20,7 +20,7 @@ class MappedRelationsNodeDto
     /**
      * @var MappedRelationsNodeDto
      * @EmbeddedCollection(
-     *      target="\Tests\DataFixtures\Dto\MappedRelationsNodeDto"
+     *      target="Tests\DataFixtures\Dto\MappedRelationsNodeDto"
      *  )
      */
     public $nodeA;
