@@ -23,4 +23,12 @@ class ChainStrategy extends AbstractStrategy
     {
         return $this->list;
     }
+
+    /**
+     * @return string
+     */
+    public function getStrategyClassName(): string
+    {
+        return \DataMapper\Strategy\ChainStrategy::class;
+    }
 }

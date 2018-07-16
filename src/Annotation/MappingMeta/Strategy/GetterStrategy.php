@@ -23,4 +23,12 @@ class GetterStrategy extends AbstractStrategy
     {
         return $this->method;
     }
+
+    /**
+     * @return string
+     */
+    public function getStrategyClassName(): string
+    {
+        return \DataMapper\Strategy\GetterStrategy::class;
+    }
 }

@@ -11,4 +11,9 @@ interface StrategyInterface
      * @return string
      */
     public function getSource(): string;
+
+    /**
+     * @return string
+     */
+    public function getStrategyClassName(): string;
 }

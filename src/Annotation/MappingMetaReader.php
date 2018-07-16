@@ -23,19 +23,9 @@ class MappingMetaReader
     private $reader;
 
     /**
-     * @var EmbeddedCollection[]
+     * @var \ReflectionClass
      */
-    private $relationsProperties = [];
-
-    /**
-     * @var NamingStrategyInterface[]
-     */
-    private $namingStrategies = [];
-
-    /**
-     * @var StrategyInterface[]
-     */
-    private $propertiesStrategies = [];
+    private $reflectionClass;
 
     /**
      * @throws DestinationClassException
@@ -51,30 +41,6 @@ class MappingMetaReader
     }
 
     /**
-     * @return EmbeddedCollection[]
-     */
-    public function getRelationsProperties(): array
-    {
-        return $this->relationsProperties;
-    }
-
-    /**
-     * @return NamingStrategyInterface[]
-     */
-    public function getNamingStrategies(): array
-    {
-        return $this->namingStrategies;
-    }
-
-    /**
-     * @return StrategyInterface[]
-     */
-    public function getPropertiesStrategies(): array
-    {
-        return $this->propertiesStrategies;
-    }
-
-    /**
      * @throws DestinationClassException
      *
      * MappingMetaReader constructor.
@@ -85,99 +51,78 @@ class MappingMetaReader
     private function __construct(Reader $reader, string $className)
     {
         $this->reader = $reader;
-        $reflectionClass = new \ReflectionClass($className);
-        $isDestination = $this->reader->getClassAnnotation($reflectionClass, DestinationClass::class);
+        $this->reflectionClass = new \ReflectionClass($className);
+        $isDestination = $this->reader->getClassAnnotation($this->reflectionClass, DestinationClass::class);
 
         if (!$isDestination) {
             throw new DestinationClassException(
-                $reflectionClass->getName() . ' - is not registered as DestinationClass.'
+                $this->reflectionClass->getName() . ' - is not registered as DestinationClass.'
             );
         }
-
-        $this
-            ->loadClassAnnotations($reflectionClass)
-            ->loadPropertiesAnnotations($reflectionClass);
     }
 
     /**
-     * @param \ReflectionClass $reflectionClass
-     *
-     * @return MappingMetaReader
+     * @return \Generator
      */
-    private function loadClassAnnotations(\ReflectionClass $reflectionClass): self
+    public function getNamingStrategies(): \Generator
     {
-        $namingRegister = $this->reader->getClassAnnotation($reflectionClass, NamingRegister::class);
+        $namingRegister = $this->reader->getClassAnnotation($this->reflectionClass, NamingRegister::class);
         $registered = $namingRegister !== null ? $namingRegister->getFor() : [];
         $filteredNaming = \array_filter(
-            $this->reader->getClassAnnotations($reflectionClass),
+            $this->reader->getClassAnnotations($this->reflectionClass),
             function ($annotation): bool {
                 return \is_a($annotation, NamingStrategyInterface::class);
             }
         );
 
-        $this->namingStrategies = array_merge(
-            \array_values($registered),
-            \array_values($filteredNaming)
-        );
-
-        return $this;
+        foreach (\array_merge(\array_values($registered), \array_values($filteredNaming)) as $namingStrategy) {
+            yield $namingStrategy;
+        }
     }
 
     /**
-     * @param \ReflectionClass $reflectionClass
-     *
-     * @return MappingMetaReader
+     * @return \Generator
      */
-    private function loadPropertiesAnnotations(\ReflectionClass $reflectionClass): self
+    public function getRelationsProperties(): \Generator
     {
-        $reflectionProperties = $reflectionClass->getProperties();
+        $reflectionProperties = $this->reflectionClass->getProperties();
 
         foreach ($reflectionProperties as $property) {
-            $this
-                ->processPropertyRelationAnnotation($property)
-                ->processPropertyStrategyAnnotation($property);
-        }
+            $mapperProperty = $this->reader->getPropertyAnnotation($property, EmbeddedCollection::class);
 
-        return $this;
-    }
-
-    /**
-     * @param \ReflectionProperty $property
-     *
-     * @return MappingMetaReader
-     */
-    private function processPropertyRelationAnnotation(\ReflectionProperty $property): self
-    {
-        $mapperProperty = $this->reader->getPropertyAnnotation($property, EmbeddedCollection::class);
-
-        if ($mapperProperty !== null) {
-            $this->relationsProperties[$property->getName()] = $mapperProperty;
-        }
-
-        return $this;
-    }
-
-    /**
-     * @param \ReflectionProperty $property
-     *
-     * @return MappingMetaReader
-     */
-    private function processPropertyStrategyAnnotation(\ReflectionProperty $property): self
-    {
-        $filtered = \array_filter(
-            $this->reader->getPropertyAnnotations($property),
-            function ($annotation): bool {
-                return \is_a($annotation, StrategyInterface::class);
+            if ($mapperProperty === null) {
+                continue;
             }
-        );
 
-        $registered = $this->reader->getPropertyAnnotation($property, StrategyRegister::class);
-        $registered = $registered !== null ? $registered->getFor() : [];
-        $this->propertiesStrategies[$property->getName()] = \array_merge(
-            \array_values($filtered),
-            \array_values($registered)
-        );
+            yield $property->getName() => $mapperProperty;
+        }
+    }
 
-        return $this;
+    /**
+     * @return \Generator
+     */
+    public function getPropertiesStrategies(): \Generator
+    {
+        $reflectionProperties = $this->reflectionClass->getProperties();
+
+        foreach ($reflectionProperties as $property) {
+            $filtered = \array_filter(
+                $this->reader->getPropertyAnnotations($property),
+                function ($annotation): bool {
+                    return \is_a($annotation, StrategyInterface::class);
+                }
+            );
+
+            $registered = $this->reader->getPropertyAnnotation($property, StrategyRegister::class);
+            $registered = $registered !== null ? $registered->getFor() : [];
+
+            if (!\count($registered) && !\count($filtered)) {
+                continue;
+            }
+
+            foreach (array_merge(\array_values($filtered), \array_values($registered)) as $propertyStrategy) {
+                yield $property->getName() => $propertyStrategy;
+            }
+        }
     }
 }

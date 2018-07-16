@@ -2,8 +2,11 @@
 
 namespace Tests\DataFixtures\Annotation;
 
+use DTOMapperBundle\Annotation\MappingMeta\DestinationClass;
+
 /**
  * Class EmbeddedCollectionNodeDTO
+ * @DestinationClass
  */
 class EmbeddedCollectionNodeDTO
 {

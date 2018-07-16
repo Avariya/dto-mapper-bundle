@@ -1,0 +1,58 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: true
+
+    Doctrine\Common\Annotations\AnnotationReader:
+    DTOMapperBundle\Annotation\AnnotationReaderInterface:
+      alias: Doctrine\Common\Annotations\AnnotationReader
+
+    DataMapper\MappingRegistry\NamingStrategyRegistry:
+    DataMapper\MappingRegistry\NamingStrategyRegistryInterface:
+      alias: DataMapper\MappingRegistry\NamingStrategyRegistry
+
+    DataMapper\MappingRegistry\DestinationRegistry:
+    DataMapper\MappingRegistry\DestinationRegistryInterface:
+      alias: DataMapper\MappingRegistry\DestinationRegistry
+
+    DataMapper\MappingRegistry\RelationsRegistry:
+    DataMapper\MappingRegistry\RelationsRegistryInterface:
+      alias: DataMapper\MappingRegistry\RelationsRegistry
+
+    DataMapper\MappingRegistry\StrategyRegistry:
+    DataMapper\MappingRegistry\StrategyRegistryInterface:
+      alias: DataMapper\MappingRegistry\StrategyRegistry
+
+    DataMapper\Hydrator\HydratorFactory:
+    DataMapper\Hydrator\HydratorFactoryInterface:
+      alias: DataMapper\Hydrator\HydratorFactory
+
+    DataMapper\Mapper:
+    DataMapper\MapperInterface:
+      alias: DataMapper\Mapper
+
+    DataMapper\NamingStrategy\SnakeCaseNamingStrategy:
+    DataMapper\NamingStrategy\UnderscoreNamingStrategy:
+    DataMapper\NamingStrategy\IdentityNamingStrategy:
+
+    DataMapper\MappingRegistry\MappingRegistry:
+    DataMapper\MappingRegistry\MappingRegistryInterface:
+      alias: DataMapper\MappingRegistry\MappingRegistry
+
+    DataMapper\MappingRegistry\HydratorRegistry:
+    DataMapper\MappingRegistry\HydratorRegistryInterface:
+      alias: DataMapper\MappingRegistry\HydratorRegistry
+
+    DataMapper\Hydrator\CollectionHydrator:
+    DataMapper\Hydrator\ArraySerializableHydrator:
+    DataMapper\Hydrator\ObjectHydrator:
+    DataMapper\Strategy\CollectionStrategy:
+      arguments:
+        - DataMapper\Hydrator\CollectionHydrator
+        - DataMapper\MappingRegistry\RelationsRegistryInterface
+
+
+    DTOMapperBundle\Annotation\MappingTransformer\StrategyFactory:
+      autowire: false
+      lazy: true

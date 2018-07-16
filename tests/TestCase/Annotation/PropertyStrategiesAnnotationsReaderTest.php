@@ -20,9 +20,6 @@ class PropertyStrategiesAnnotationsReaderTest extends TestCase
     public function testRelationsAnnotationsParsing(): void
     {
         $reader = $this->createReader(PropertyMappedByStrategyDTO::class);
-        $props = $reader->getPropertiesStrategies();
-        foreach ($props as $propsStrategies) {
-            $this->assertContainsOnlyInstancesOf(AbstractStrategy::class, $propsStrategies);
-        }
+        $this->assertContainsOnlyInstancesOf(AbstractStrategy::class, $reader->getPropertiesStrategies());
     }
 }

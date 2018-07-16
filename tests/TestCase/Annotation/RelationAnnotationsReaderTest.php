@@ -24,7 +24,7 @@ class RelationAnnotationsReaderTest extends TestCase
         $multiNode = 'multiNode';
         $targetClass = EmbeddedCollectionNodeDTO::class;
 
-        $props = $reader->getRelationsProperties();
+        $props = iterator_to_array($reader->getRelationsProperties());
         $this->assertArrayHasKey($singleKey, $props);
         $this->assertArrayHasKey($multiNode, $props);
         $this->assertFalse($props[$singleKey]->isMulti());

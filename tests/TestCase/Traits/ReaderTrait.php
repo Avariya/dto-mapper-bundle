@@ -17,8 +17,11 @@ trait ReaderTrait
      */
     protected function createReader(string $className): MappingMetaReader
     {
+        $reader = new AnnotationReader();
+        $reader::addGlobalIgnoredName('\DTOMapperBundle\Annotation\MappingMeta\DestinationClass');
+
         return MappingMetaReader::createReader(
-            new AnnotationReader(),
+            $reader,
             $className
         );
     }

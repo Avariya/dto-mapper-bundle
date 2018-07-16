@@ -1,0 +1,15 @@
+services:
+  _defaults:
+      autowire: true
+      autoconfigure: true
+      public: true
+
+  Tests\DataFixtures\Service\ClosureStrategyService:
+  serviceId:
+    alias: Tests\DataFixtures\Service\ClosureStrategyService
+
+  Tests\DataFixtures\Dto\:
+    resource: '../../Dto/*'
+    autowire: true
+    tags:
+        - { name: dto_mapper.destination }

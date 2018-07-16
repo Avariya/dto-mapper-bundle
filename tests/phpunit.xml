@@ -9,26 +9,28 @@
 
     <php>
         <ini name="error_reporting" value="-1" />
-        <env name="KERNEL_CLASS" value="App\Kernel" />
+        <env name="KERNEL_CLASS" value="Tests\TestCase\Kernel" />
         <env name="APP_ENV" value="test" />
         <env name="APP_DEBUG" value="1" />
         <env name="SHELL_VERBOSITY" value="-1" />
+        <env name="APP__SECRET" value="327a312d62e923bc44ab437a94420e19" />
         <!-- define your env variables for the test env here -->
 
         <!-- ###+ symfony/framework-bundle ### -->
         <!-- ###- symfony/framework-bundle ### -->
     </php>
 
-    <testsuites>
-        <testsuite name="Project Test Suite">
-            <directory>../tests/</directory>
-        </testsuite>
-    </testsuites>
 
-    <filter>
-        <whitelist>
-            <directory>../src/</directory>
-        </whitelist>
-    </filter>
+    <!--<testsuites>-->
+        <!--<testsuite name="Project Test Suite">-->
+            <!--<directory>../tests/</directory>-->
+        <!--</testsuite>-->
+    <!--</testsuites>-->
+
+    <!--<filter>-->
+        <!--<whitelist>-->
+            <!--<directory>../src/</directory>-->
+        <!--</whitelist>-->
+    <!--</filter>-->
 
 </phpunit>

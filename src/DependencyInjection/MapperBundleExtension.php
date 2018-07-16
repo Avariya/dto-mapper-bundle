@@ -8,9 +8,9 @@ use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 /**
- * Class MapperBundleExtentions
+ * Class MapperBundleExtension
  */
-class MapperBundleExtentions extends Extension
+class MapperBundleExtension extends Extension
 {
     /**
      * @param array            $configs
@@ -19,6 +19,6 @@ class MapperBundleExtentions extends Extension
     public function load(array $configs, ContainerBuilder $container)
     {
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
-        $loader->load('services.yml');
+        $loader->load('services.yaml');
     }
 }

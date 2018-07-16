@@ -10,5 +10,11 @@ use Doctrine\Common\Annotations\Annotation;
  */
 class UnderscoreNamingStrategy extends AbstractNamingStrategy
 {
-
+    /**
+     * @return string
+     */
+    public function getStrategyClassName(): string
+    {
+        return \DataMapper\NamingStrategy\UnderscoreNamingStrategy::class;
+    }
 }

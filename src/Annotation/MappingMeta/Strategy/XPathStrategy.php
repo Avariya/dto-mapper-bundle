@@ -2,6 +2,7 @@
 
 namespace DTOMapperBundle\Annotation\MappingMeta\Strategy;
 
+use DataMapper\Strategy\XPathGetterStrategy;
 use Doctrine\Common\Annotations\Annotation;
 
 /**
@@ -22,5 +23,13 @@ class XPathStrategy extends AbstractStrategy
     public function getXPath(): string
     {
         return $this->xPath;
+    }
+
+    /**
+     * @return string
+     */
+    public function getStrategyClassName(): string
+    {
+        return XPathGetterStrategy::class;
     }
 }
