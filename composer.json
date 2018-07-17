@@ -32,12 +32,17 @@
   "keywords": [
     "php",
     "mapper",
+    "dto",
     "dto-mapper",
+    "symfony",
+    "serialization",
     "hydrator",
     "performance",
+    "deserialization",
     "array conversion",
     "object conversion",
-    "serializer"
+    "serializer",
+    "deserialization"
   ],
   "scripts": {
     "test": "phpunit -c tests/phpunit.xml tests/",
