@@ -15,18 +15,16 @@ class PropertyMappedByStrategyDTO
      * @Strategy\ChainStrategy(
      *     source="testSource",
      *     list={
-     *          @Strategy\GetterStrategy(source="Tests\DataFixtures\Model\GeneralSource", method="getMe"),
+     *          @Strategy\GetterStrategy(method="getMe"),
      *          @Strategy\ServiceClosureStrategy(
-     *                  source="Tests\DataFixtures\Model\GeneralSource",
      *                  provider="serviceId",
      *                  method="getClosure"
      *          ),
      *          @Strategy\StaticClosureStrategy(
-     *              source="Tests\DataFixtures\Model\GeneralSource",
      *              provider="Tests\DataFixtures\Service\ClosureStrategyService",
      *              method="getStaticClosure"
      *          ),
-     *          @Strategy\XPathStrategy(source="Tests\DataFixtures\Model\GeneralSource", xPath="some.example.path")
+     *          @Strategy\XPathStrategy(xPath="some.example.path")
      * })
      */
     public $testPropertyA;
@@ -48,9 +46,8 @@ class PropertyMappedByStrategyDTO
      *      @Strategy\ChainStrategy(
      *          source="Tests\DataFixtures\Model\GeneralSource",
      *          list={
-     *              @Strategy\GetterStrategy(source="Tests\DataFixtures\Model\GeneralSource", method="getMe"),
+     *              @Strategy\GetterStrategy(method="getMe"),
      *              @Strategy\StaticClosureStrategy(
-     *                  source="Tests\DataFixtures\Model\GeneralSource",
      *                  provider="Tests\DataFixtures\Service\ClosureStrategyService",
      *                  method="getStaticClosure"
      *              ),

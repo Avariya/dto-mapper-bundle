@@ -4,12 +4,16 @@ services:
       autoconfigure: true
       public: true
 
+  # Used by compiler pass tests
   Tests\DataFixtures\Service\ClosureStrategyService:
   serviceId:
     alias: Tests\DataFixtures\Service\ClosureStrategyService
 
+  Tests\DataFixtures\Model\Closure\ClosureProvider:
+  Tests\DataFixtures\Model\Chain\ChainClosureProvider:
+
   Tests\DataFixtures\Dto\:
-    resource: '../../Dto/*'
+    resource: '../../DataFixtures/Dto/*'
     autowire: true
     tags:
         - { name: dto_mapper.destination }

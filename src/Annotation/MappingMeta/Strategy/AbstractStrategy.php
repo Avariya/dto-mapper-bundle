@@ -2,16 +2,17 @@
 
 namespace DTOMapperBundle\Annotation\MappingMeta\Strategy;
 
+use DataMapper\Type\TypeDict;
+
 /**
  * Class AbstractStrategy
  */
 abstract class AbstractStrategy implements StrategyInterface
 {
     /**
-     * @Required
      * @var string
      */
-    public $source;
+    public $source = TypeDict::ALL_TYPE;
 
     /**
      * @return string

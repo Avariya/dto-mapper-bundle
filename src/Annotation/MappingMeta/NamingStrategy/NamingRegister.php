@@ -11,7 +11,7 @@ use Doctrine\Common\Annotations\Annotation;
 class NamingRegister
 {
     /**
-     * @Annotation\Required()
+     * @Required
      * @var array<DTOMapperBundle\Annotation\MappingMeta\NamingStrategy\NamingStrategyInterface>
      */
     public $for = [];

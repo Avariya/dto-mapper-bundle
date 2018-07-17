@@ -5,6 +5,7 @@ namespace Tests\DataFixtures\Dto;
 use DTOMapperBundle\Annotation\MappingMeta\DestinationClass;
 use DTOMapperBundle\Annotation\MappingMeta\EmbeddedCollection;
 use DTOMapperBundle\Annotation\MappingMeta\NamingStrategy\SnakeCaseNamingStrategy;
+use Tests\DataFixtures\Model\Relations\MappedRelationsNodeInfo;
 
 /**
  * @DestinationClass
@@ -30,11 +31,11 @@ class MappedRelationsRootDto
     public $nodeB;
 
     /**
-     * @var MappedRelationsNodeDto
+     * @var MappedRelationsNodeInfo
      * @EmbeddedCollection(
-     *      target="Tests\DataFixtures\Dto\MappedRelationsNodeInfoDto",
+     *      target="Tests\DataFixtures\Model\Relations\MappedRelationsNodeInfo",
      *      multi=true
      *  )
      */
-    public $event;
+    public $event = [];
 }

@@ -10,16 +10,12 @@ use Doctrine\Common\Annotations\Annotation;
  */
 abstract class AbstractNamingStrategy implements NamingStrategyInterface
 {
-    /**
-     * @Required
-     * @var string
-     */
     public $source;
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getSource(): string
+    public function getSource(): ?string
     {
         return $this->source;
     }

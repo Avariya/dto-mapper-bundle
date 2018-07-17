@@ -9,7 +9,7 @@ use Doctrine\Common\Annotations\Annotation;
  * @Annotation
  * @Annotation\Target({"PROPERTY", "ANNOTATION"})
  */
-class XPathStrategy extends AbstractStrategy
+class XPathStrategy extends AbstractStrategy implements ChainStrategyInterface
 {
     /**
      * @Required

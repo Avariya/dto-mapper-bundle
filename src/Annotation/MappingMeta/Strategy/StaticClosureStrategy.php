@@ -9,7 +9,7 @@ use DataMapper\Strategy\ClosureStrategy;
  * @Annotation
  * @Annotation\Target({"PROPERTY", "ANNOTATION"})
  */
-class StaticClosureStrategy extends AbstractStrategy
+class StaticClosureStrategy extends AbstractStrategy implements ChainStrategyInterface
 {
     /**
      * @Required

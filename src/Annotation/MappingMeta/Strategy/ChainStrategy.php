@@ -12,7 +12,7 @@ class ChainStrategy extends AbstractStrategy
 {
     /**
      * @Required
-     * @var array<DTOMapperBundle\Annotation\MappingMeta\Strategy\StrategyInterface>
+     * @var array<DTOMapperBundle\Annotation\MappingMeta\Strategy\ChainStrategyInterface>
      */
     public $list = [];
 

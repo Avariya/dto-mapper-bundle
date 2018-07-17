@@ -15,8 +15,8 @@ class CompilePassMappedDTO
      * @Strategy\ChainStrategy(
      *     source="testSource",
      *     list={
-     *          @Strategy\GetterStrategy(source="Tests\DataFixtures\Model\GeneralSource", method="getMe"),
-     *          @Strategy\XPathStrategy(source="Tests\DataFixtures\Model\GeneralSource", xPath="some.example.path")
+     *          @Strategy\GetterStrategy(method="getMe"),
+     *          @Strategy\XPathStrategy(xPath="some.example.path")
      * })
      */
     public $testPropertyA;

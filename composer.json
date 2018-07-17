@@ -1,7 +1,7 @@
 {
   "name": "vklymniuk/dto-mapper-bundle",
   "type": "symfony-bundle",
-  "description": "Symfony bundle, easy way mapping data to DTO objects",
+  "description": "Symfony bundle, easy way to convert data.",
   "license": "MIT",
   "authors": [
     {
@@ -16,12 +16,12 @@
     "symfony/dependency-injection": "^4.0",
     "symfony/config": "^4.0",
     "vklymniuk/dto-mapper": "dev-master",
-    "symfony/proxy-manager-bridge": "^4.1"
+    "symfony/proxy-manager-bridge": "^4.0"
   },
   "require-dev": {
     "phpunit/phpunit": "^7.2",
-    "symfony/framework-bundle": "^4.1",
-    "symfony/yaml": "^4.1"
+    "symfony/framework-bundle": "^4.0",
+    "symfony/yaml": "^4.0"
   },
   "autoload":     {
     "psr-4": { "DTOMapperBundle\\": "src/" }
@@ -40,7 +40,7 @@
     "serializer"
   ],
   "scripts": {
-    "test": "phpunit",
+    "test": "phpunit -c tests/phpunit.xml tests/",
     "post-install-cmd": [
       "composer dump-autoload"
     ]

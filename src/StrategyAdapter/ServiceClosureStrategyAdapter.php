@@ -1,13 +1,13 @@
 <?php
 
-namespace DTOMapperBundle\Annotation\MappingAdapter;
+namespace DTOMapperBundle\StrategyAdapter;
 
 use DataMapper\Strategy\StrategyInterface;
 
 /**
- * Class StrategyAdapter
+ * Class ServiceClosureStrategyAdapter
  */
-class StrategyAdapter implements StrategyInterface
+class ServiceClosureStrategyAdapter implements StrategyInterface
 {
     /**
      * @var object
@@ -20,7 +20,7 @@ class StrategyAdapter implements StrategyInterface
     private $getter;
 
     /**
-     * StrategyFactory constructor.
+     * StaticClosureStrategyAdapter constructor.
      *
      * @param object $serviceProvider
      * @param string $getter

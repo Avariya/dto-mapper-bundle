@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\TestCase;
+namespace Tests;
 
 use DTOMapperBundle\DTOMapperBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
@@ -74,13 +74,13 @@ class Kernel extends BaseKernel
      * $c->setParameter('halloween', 'lot of fun');
      *
      * @throws \Exception
-     * @param ContainerBuilder $ccontainer
+     * @param ContainerBuilder $container
      * @param LoaderInterface  $loader
      */
-    protected function configureContainer(ContainerBuilder $ccontainer, LoaderInterface $loader)
+    protected function configureContainer(ContainerBuilder $container, LoaderInterface $loader)
     {
-        $confDir = $this->getProjectDir() . '/tests/DataFixtures/Resource/config/';
+        $confDir = $this->getProjectDir() . '/tests/Resource/config/';
         $loader->load($confDir . 'test_services.yaml');
-        $ccontainer->setParameter('kernel.secret', 'none');
+        $container->setParameter('kernel.secret', 'none');
     }
 }

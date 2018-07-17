@@ -8,7 +8,7 @@ use Doctrine\Common\Annotations\Annotation;
  * @Annotation
  * @Annotation\Target({"PROPERTY", "ANNOTATION"})
  */
-class GetterStrategy extends AbstractStrategy
+class GetterStrategy extends AbstractStrategy implements ChainStrategyInterface
 {
     /**
      * @Required

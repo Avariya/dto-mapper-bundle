@@ -4,12 +4,10 @@ namespace Tests\DataFixtures\Dto;
 
 use DTOMapperBundle\Annotation\MappingMeta\DestinationClass;
 use DTOMapperBundle\Annotation\MappingMeta\EmbeddedCollection;
-use DTOMapperBundle\Annotation\MappingMeta\NamingStrategy\SnakeCaseNamingStrategy;
 
 /**
  * Class MappedRelationsNodeDto
  * @DestinationClass
- * @SnakeCaseNamingStrategy(source="array")
  */
 class MappedRelationsNodeDto
 {

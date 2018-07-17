@@ -2,13 +2,15 @@
 
 namespace DTOMapperBundle\DependencyInjection\Compiler;
 
+use DataMapper\Type\TypeDict;
 use DTOMapperBundle\Annotation\Exception\InvalidTypeException;
+use DTOMapperBundle\StrategyAdapter\StaticClosureStrategyAdapter;
+use DTOMapperBundle\StrategyAdapter\ServiceClosureStrategyAdapter;
 use DTOMapperBundle\Annotation\MappingMetaReader;
 use DTOMapperBundle\Annotation\AnnotationReaderInterface;
 use DTOMapperBundle\Annotation\MappingMeta\Strategy as MetaStrategy;
 use DTOMapperBundle\Annotation\MappingMeta\Strategy\StrategyInterface as MetaStrategyInterface;
 
-use DTOMapperBundle\Annotation\MappingAdapter\StrategyAdapter;
 use DataMapper\Strategy;
 use DataMapper\Hydrator\CollectionHydrator;
 use DataMapper\MappingRegistry;
@@ -47,7 +49,6 @@ class MappingCompilePass implements CompilerPassInterface
     {
         $hydrationRegistry = $container->getDefinition(MappingRegistry\HydratorRegistry::class);
         $baseHydrationTypes = TypeResolver::hydrationSupportedTypeSequence();
-
 
         foreach ($baseHydrationTypes as $type => $hydratorClass) {
             $hydrationRegistry->addMethodCall(
@@ -128,7 +129,7 @@ class MappingCompilePass implements CompilerPassInterface
             $strategyRegistry->addMethodCall(
                 'registerPropertyStrategy',
                 [
-                    TypeResolver::getStrategyType([], $destination),
+                    TypeResolver::getStrategyType(TypeDict::ARRAY_TYPE, $destination),
                     $propertyName,
                     (new Definition(
                         Strategy\CollectionStrategy::class,
@@ -155,10 +156,31 @@ class MappingCompilePass implements CompilerPassInterface
     {
         $namingStrategyRegistry = $container->getDefinition(MappingRegistry\NamingStrategyRegistry::class);
         foreach ($reader->getNamingStrategies() as $namingStrategy) {
+            if (!empty($namingStrategy->getSource())) {
+                $namingStrategyRegistry->addMethodCall(
+                    'registerNamingStrategy',
+                    [
+                        TypeResolver::getStrategyType($namingStrategy->getSource(), $destination),
+                        new Reference($namingStrategy->getStrategyClassName()),
+                    ]
+                );
+
+                continue;
+            }
+
+            // Register default naming for array to dto mapping and dto to array extraction
             $namingStrategyRegistry->addMethodCall(
                 'registerNamingStrategy',
                 [
-                    TypeResolver::getStrategyType($namingStrategy->getSource(), $destination),
+                    TypeResolver::getStrategyType(TypeDict::ARRAY_TYPE, $destination),
+                    new Reference($namingStrategy->getStrategyClassName()),
+                ]
+            );
+
+            $namingStrategyRegistry->addMethodCall(
+                'registerNamingStrategy',
+                [
+                    TypeResolver::getStrategyType($destination, TypeDict::ARRAY_TYPE),
                     new Reference($namingStrategy->getStrategyClassName()),
                 ]
             );
@@ -184,7 +206,7 @@ class MappingCompilePass implements CompilerPassInterface
                 [
                     TypeResolver::getStrategyType($strategy->getSource(), $destination),
                     $propertyName,
-                    $this->createStrategyDefinition($container, $strategy)
+                    $this->createStrategyDefinition($container, $strategy),
                 ]
             );
 
@@ -204,24 +226,31 @@ class MappingCompilePass implements CompilerPassInterface
         if ($strategy instanceof MetaStrategy\GetterStrategy) {
             return (new Definition(
                 Strategy\GetterStrategy::class,
-                [$strategy->getMethod()]
+                [
+                    $strategy->getMethod()
+                ]
             ))->setLazy(true);
         }
 
         if ($strategy instanceof MetaStrategy\XPathStrategy) {
             return (new Definition(
-                Strategy\GetterStrategy::class,
-                [$strategy->getXPath()]
+                Strategy\XPathGetterStrategy::class,
+                [
+                    new Reference(CollectionHydrator::class),
+                    $strategy->getXPath(),
+                ]
             ))->setLazy(true);
         }
 
         if ($strategy instanceof MetaStrategy\StaticClosureStrategy) {
-            return (new Definition(StrategyAdapter::class))
-                ->setArguments([
-                    new Reference($strategy->getProvider()),
-                    $strategy->getMethod()
-                ])
-                ->setLazy(true);
+            return (
+                new Definition(
+                    StaticClosureStrategyAdapter::class,
+                    [
+                       $strategy->getProvider(),
+                       $strategy->getMethod(),
+                    ]
+                ))->setLazy(true);
         }
 
         if ($strategy instanceof MetaStrategy\ChainStrategy) {
@@ -231,16 +260,20 @@ class MappingCompilePass implements CompilerPassInterface
                 $args[] = $this->createStrategyDefinition($container, $singleStrategy);
             }
 
-            return (new Definition(Strategy\ChainStrategy::class, [$args]))->setLazy(true);
+            return (new Definition(
+                Strategy\ChainStrategy::class,
+                [$args]
+            ))->setLazy(true);
         }
 
         if ($strategy instanceof MetaStrategy\ServiceClosureStrategy) {
-            return (new Definition(StrategyAdapter::class))
-                ->setArguments([
-                   new Reference($strategy->getProvider()),
-                   $strategy->getMethod()
-                ])
-               ->setLazy(true);
+            return (new Definition(
+                ServiceClosureStrategyAdapter::class,
+                [
+                    new Reference($strategy->getProvider()),
+                    $strategy->getMethod(),
+                ]
+            ))->setLazy(true);
         }
     }
 

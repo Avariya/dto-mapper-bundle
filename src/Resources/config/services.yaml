@@ -47,12 +47,3 @@ services:
     DataMapper\Hydrator\CollectionHydrator:
     DataMapper\Hydrator\ArraySerializableHydrator:
     DataMapper\Hydrator\ObjectHydrator:
-    DataMapper\Strategy\CollectionStrategy:
-      arguments:
-        - DataMapper\Hydrator\CollectionHydrator
-        - DataMapper\MappingRegistry\RelationsRegistryInterface
-
-
-    DTOMapperBundle\Annotation\MappingTransformer\StrategyFactory:
-      autowire: false
-      lazy: true
