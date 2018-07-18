@@ -1,6 +1,6 @@
 <?php
 
-namespace DTOMapperBundle\Annotation\MappingMeta\NamingStrategy;
+namespace VK\DTOMapperBundle\Annotation\MappingMeta\NamingStrategy;
 
 use Doctrine\Common\Annotations\Annotation;
 
@@ -12,7 +12,7 @@ class NamingRegister
 {
     /**
      * @Required
-     * @var array<DTOMapperBundle\Annotation\MappingMeta\NamingStrategy\NamingStrategyInterface>
+     * @var array<VK\DTOMapperBundle\Annotation\MappingMeta\NamingStrategy\NamingStrategyInterface>
      */
     public $for = [];
 

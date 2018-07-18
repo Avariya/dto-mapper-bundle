@@ -1,14 +1,15 @@
 <?php
 
-namespace DTOMapperBundle\Annotation;
+namespace VK\DTOMapperBundle\Annotation;
 
-use DTOMapperBundle\Annotation\Exception\DestinationClassException;
-use DTOMapperBundle\Annotation\MappingMeta\DestinationClass;
-use DTOMapperBundle\Annotation\MappingMeta\EmbeddedCollection;
-use DTOMapperBundle\Annotation\MappingMeta\NamingStrategy\NamingRegister;
-use DTOMapperBundle\Annotation\MappingMeta\NamingStrategy\NamingStrategyInterface;
-use DTOMapperBundle\Annotation\MappingMeta\Strategy\StrategyInterface;
-use DTOMapperBundle\Annotation\MappingMeta\Strategy\StrategyRegister;
+use VK\DTOMapperBundle\Annotation\Exception\DestinationClassException;
+use VK\DTOMapperBundle\Annotation\MappingMeta\DestinationClass;
+use VK\DTOMapperBundle\Annotation\MappingMeta\EmbeddedClass;
+use VK\DTOMapperBundle\Annotation\MappingMeta\EmbeddedCollection;
+use VK\DTOMapperBundle\Annotation\MappingMeta\NamingStrategy\NamingRegister;
+use VK\DTOMapperBundle\Annotation\MappingMeta\NamingStrategy\NamingStrategyInterface;
+use VK\DTOMapperBundle\Annotation\MappingMeta\Strategy\StrategyInterface;
+use VK\DTOMapperBundle\Annotation\MappingMeta\Strategy\StrategyRegister;
 
 use Doctrine\Common\Annotations\Reader;
 
@@ -88,13 +89,13 @@ class MappingMetaReader
         $reflectionProperties = $this->reflectionClass->getProperties();
 
         foreach ($reflectionProperties as $property) {
-            $mapperProperty = $this->reader->getPropertyAnnotation($property, EmbeddedCollection::class);
+            foreach ($this->reader->getPropertyAnnotations($property) as $annotation) {
+                if (!($annotation instanceof EmbeddedCollection) && !($annotation instanceof EmbeddedClass)) {
+                    continue;
+                }
 
-            if ($mapperProperty === null) {
-                continue;
+                yield $property->getName() => $annotation;
             }
-
-            yield $property->getName() => $mapperProperty;
         }
     }
 

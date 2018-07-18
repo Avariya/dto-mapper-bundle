@@ -2,16 +2,17 @@
 
 namespace Tests\DataFixtures\Annotation;
 
-use DTOMapperBundle\Annotation\MappingMeta\DestinationClass;
-use DTOMapperBundle\Annotation\MappingMeta\NamingStrategy;
-use DTOMapperBundle\Annotation\MappingMeta\EmbeddedCollection;
+use VK\DTOMapperBundle\Annotation\MappingMeta\DestinationClass;
+use VK\DTOMapperBundle\Annotation\MappingMeta\EmbeddedClass;
+use VK\DTOMapperBundle\Annotation\MappingMeta\NamingStrategy;
+use VK\DTOMapperBundle\Annotation\MappingMeta\EmbeddedCollection;
 
 /**
  * Class EmbeddedCollectionRoot
  *
  * @DestinationClass
  * @NamingStrategy\NamingRegister(for={
- *     @NamingStrategy\SnakeCaseNamingStrategy(source="array"),
+ *     @NamingStrategy\SnakeCaseNamingStrategy,
  *     @NamingStrategy\UnderscoreNamingStrategy(source="class"),
  * })
  * @NamingStrategy\IdentityNamingStrategy(source="object"),
@@ -20,18 +21,13 @@ class EmbeddedCollectionRootDTO
 {
     /**
      * @var EmbeddedCollectionNodeDTO
-     * @EmbeddedCollection(
-     *      target="Tests\DataFixtures\Annotation\EmbeddedCollectionNodeDTO"
-     *  )
+     * @EmbeddedClass(target="Tests\DataFixtures\Annotation\EmbeddedCollectionNodeDTO")
      */
     public $singleNode;
 
     /**
      * @var EmbeddedCollectionNodeDTO[]
-     * @EmbeddedCollection(
-     *     target="Tests\DataFixtures\Annotation\EmbeddedCollectionNodeDTO",
-     *     multi=true
-     * )
+     * @EmbeddedCollection(target="Tests\DataFixtures\Annotation\EmbeddedCollectionNodeDTO")
      */
     public $multiNode = [];
 

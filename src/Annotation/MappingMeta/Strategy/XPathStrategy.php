@@ -1,6 +1,6 @@
 <?php
 
-namespace DTOMapperBundle\Annotation\MappingMeta\Strategy;
+namespace VK\DTOMapperBundle\Annotation\MappingMeta\Strategy;
 
 use DataMapper\Strategy\XPathGetterStrategy;
 use Doctrine\Common\Annotations\Annotation;

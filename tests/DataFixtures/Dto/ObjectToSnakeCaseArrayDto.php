@@ -2,8 +2,8 @@
 
 namespace Tests\DataFixtures\Dto;
 
-use DTOMapperBundle\Annotation\MappingMeta\DestinationClass;
-use DTOMapperBundle\Annotation\MappingMeta\NamingStrategy\SnakeCaseNamingStrategy;
+use VK\DTOMapperBundle\Annotation\MappingMeta\DestinationClass;
+use VK\DTOMapperBundle\Annotation\MappingMeta\NamingStrategy\SnakeCaseNamingStrategy;
 use Tests\DataFixtures\Model\Extractor\SnakeCaseInnerObject;
 
 /**

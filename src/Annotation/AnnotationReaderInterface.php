@@ -1,6 +1,6 @@
 <?php
 
-namespace DTOMapperBundle\Annotation;
+namespace VK\DTOMapperBundle\Annotation;
 
 use Doctrine\Common\Annotations\Reader;
 

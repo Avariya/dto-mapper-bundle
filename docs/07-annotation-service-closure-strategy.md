@@ -1,14 +1,15 @@
 
-# @Annotation - Strategy Static Closure 
+# @Annotation - Service Closure Strategy
 
-Strategy extracts closure function from declared static method and executes it with source value.
+Strategy extracts closure from service method and executes it with source value in 
+service provider context.
 
 Example:
 ```php
 <?php
 
-use DTOMapperBundle\Annotation\MappingMeta\DestinationClass;
-use DTOMapperBundle\Annotation\MappingMeta\Strategy;
+use VK\DTOMapperBundle\Annotation\MappingMeta\DestinationClass;
+use VK\DTOMapperBundle\Annotation\MappingMeta\Strategy;
 
 class ClosureSource
 {
@@ -23,12 +24,14 @@ class ClosureSource
     }
 }
 
-class ClosureProvider
+class ClosureServiceProvider
 {
-    public static function calculate(): \Closure
+    private $multiplier = 5;
+
+    public function calculate(): \Closure
     {
         return function (ClosureSource $source) {
-            return $source->getX() * $source->getY(); 
+            return ($source->getX() * $source->getY()) * $this->multiplier; 
         };
     }
 }
@@ -42,7 +45,7 @@ class ResultDto
     /**
      * @Strategy\StaticClosureStrategy(
      *     source="ClosureSource",
-     *     provider="ClosureProvider",
+     *     provider="ClosureServiceProvider",
      *     method="calculate"
      * )
      */
@@ -53,6 +56,6 @@ use DataMapper\MapperInterface;
 
 /** @var MapperInterface $mapper */
 $dto = $mapper->convert(new ClosureSource(), ResultDto::class);
-echo $dto->result; // 25
+echo $dto->result; // 125
 
 ```

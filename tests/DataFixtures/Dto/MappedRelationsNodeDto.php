@@ -2,8 +2,8 @@
 
 namespace Tests\DataFixtures\Dto;
 
-use DTOMapperBundle\Annotation\MappingMeta\DestinationClass;
-use DTOMapperBundle\Annotation\MappingMeta\EmbeddedCollection;
+use VK\DTOMapperBundle\Annotation\MappingMeta\DestinationClass;
+use VK\DTOMapperBundle\Annotation\MappingMeta\EmbeddedClass;
 
 /**
  * Class MappedRelationsNodeDto
@@ -17,9 +17,7 @@ class MappedRelationsNodeDto
 
     /**
      * @var MappedRelationsNodeDto
-     * @EmbeddedCollection(
-     *      target="Tests\DataFixtures\Dto\MappedRelationsNodeDto"
-     *  )
+     * @EmbeddedClass(target="Tests\DataFixtures\Dto\MappedRelationsNodeDto")
      */
     public $nodeA;
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace DTOMapperBundle\Annotation\MappingMeta\Strategy;
+namespace VK\DTOMapperBundle\Annotation\MappingMeta\Strategy;
 
 use Doctrine\Common\Annotations\Annotation;
 
@@ -12,7 +12,7 @@ class StrategyRegister
 {
     /**
      * @Required
-     * @var array<DTOMapperBundle\Annotation\MappingMeta\Strategy\StrategyInterface>
+     * @var array<VK\DTOMapperBundle\Annotation\MappingMeta\Strategy\StrategyInterface>
      */
     public $for = [];
 

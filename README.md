@@ -2,13 +2,13 @@
 
 [![Build Status](https://travis-ci.org/vklymniuk/dto-mapper-bundle.svg?branch=develop)](https://travis-ci.org/vklymniuk/dto-mapper-bundle)
 
-## Why use DTO MapperBundle?
+## Why use VK\DTOMapperBundle?
 DTO MapperBundle makes the process of binding all your data mapping rules a lot more easy by providing annotation declarations.
 You can extract content from objects and fill objects from raw arrays.
 Instead of slow and dummy reflection classes, the bundle uses fast and performance optimized  [code generator](https://github.com/Ocramius/GeneratedHydrator).
 All mapping and DI configurations use native symfony cache and lazy loading.
 
-DTO MapperBundle uses customized performance strategies:
+VK\DTOMapperBundle uses customized performance strategies:
  * Converts `Object` to `array`
  * Extracts `Object` to `array`
  * Puts data from `array` into `Object`
@@ -22,6 +22,16 @@ php composer.phar require vklymniuk/dto-mapper-bundle
 ```
  
 ## Setup
+
+Register bundle in bundles.php file.
+```php
+<?php
+
+return [
+    VK\DTOMapperBundle\DTOMapperBundle::class => ['all' => true],
+];
+```
+
 
 Tag directory with classes that you want add to mapping.
 ```yaml
@@ -40,8 +50,8 @@ Class example:
 
 namespace Tests\DataFixtures\Dto;
 
-use DTOMapperBundle\Annotation\MappingMeta\DestinationClass;
-use DTOMapperBundle\Annotation\MappingMeta\Strategy;
+use VK\DTOMapperBundle\Annotation\MappingMeta\DestinationClass;
+use VK\DTOMapperBundle\Annotation\MappingMeta\Strategy;
 
 /**
  * Class XPathDestinationDto
@@ -92,4 +102,4 @@ $mapper->extract($object);
 ```
 
 ## Documentation
-You can learn more about the bundle possibilities and how to use the **DTOMapperBundle** in the [docs](docs).
+You can learn more about the bundle possibilities and how to use the **VK\DTOMapperBundle** in the [docs](docs).

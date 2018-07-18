@@ -1,15 +1,15 @@
 <?php
 
-namespace DTOMapperBundle\DependencyInjection\Compiler;
+namespace VK\DTOMapperBundle\DependencyInjection\Compiler;
 
 use DataMapper\Type\TypeDict;
-use DTOMapperBundle\Annotation\Exception\InvalidTypeException;
-use DTOMapperBundle\StrategyAdapter\StaticClosureStrategyAdapter;
-use DTOMapperBundle\StrategyAdapter\ServiceClosureStrategyAdapter;
-use DTOMapperBundle\Annotation\MappingMetaReader;
-use DTOMapperBundle\Annotation\AnnotationReaderInterface;
-use DTOMapperBundle\Annotation\MappingMeta\Strategy as MetaStrategy;
-use DTOMapperBundle\Annotation\MappingMeta\Strategy\StrategyInterface as MetaStrategyInterface;
+use VK\DTOMapperBundle\Annotation\Exception\InvalidTypeException;
+use VK\DTOMapperBundle\StrategyAdapter\StaticClosureStrategyAdapter;
+use VK\DTOMapperBundle\StrategyAdapter\ServiceClosureStrategyAdapter;
+use VK\DTOMapperBundle\Annotation\MappingMetaReader;
+use VK\DTOMapperBundle\Annotation\AnnotationReaderInterface;
+use VK\DTOMapperBundle\Annotation\MappingMeta\Strategy as MetaStrategy;
+use VK\DTOMapperBundle\Annotation\MappingMeta\Strategy\StrategyInterface as MetaStrategyInterface;
 
 use DataMapper\Strategy;
 use DataMapper\Hydrator\CollectionHydrator;

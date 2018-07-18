@@ -3,7 +3,7 @@
 namespace Tests\TestCase\Traits;
 
 use Doctrine\Common\Annotations\AnnotationReader;
-use DTOMapperBundle\Annotation\MappingMetaReader;
+use VK\DTOMapperBundle\Annotation\MappingMetaReader;
 
 /**
  * Trait ReaderTrait

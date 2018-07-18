@@ -1,9 +1,9 @@
 <?php
 
-namespace DTOMapperBundle\Annotation\MappingMeta;
+namespace VK\DTOMapperBundle\Annotation\MappingMeta;
 
 use Doctrine\Common\Annotations\Annotation;
-use DTOMapperBundle\Annotation\Exception\InvalidTargetClassException;
+use VK\DTOMapperBundle\Annotation\Exception\InvalidTargetClassException;
 
 /**
  * @Annotation
@@ -17,9 +17,9 @@ class EmbeddedCollection
     public $target;
 
     /**
-     * @Annotation\Attribute(type="bool")
+     * @var bool
      */
-    public $multi = false;
+    public $multi = true;
 
     /**
      * @return string

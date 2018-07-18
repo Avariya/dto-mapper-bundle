@@ -1,6 +1,6 @@
 <?php
 
-namespace DTOMapperBundle\Annotation\MappingMeta\NamingStrategy;
+namespace VK\DTOMapperBundle\Annotation\MappingMeta\NamingStrategy;
 
 /**
  * Interface NamingStrategyInterface

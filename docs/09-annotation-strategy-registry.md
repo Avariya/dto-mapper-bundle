@@ -8,8 +8,8 @@ Example:
 
 <?php
 
-use DTOMapperBundle\Annotation\MappingMeta\DestinationClass;
-use DTOMapperBundle\Annotation\MappingMeta\Strategy;
+use VK\DTOMapperBundle\Annotation\MappingMeta\DestinationClass;
+use VK\DTOMapperBundle\Annotation\MappingMeta\Strategy;
 
 /**
  * Class PropertyMappedByStrategyDTO
