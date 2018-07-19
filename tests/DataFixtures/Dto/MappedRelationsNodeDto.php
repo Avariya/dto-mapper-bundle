@@ -2,8 +2,8 @@
 
 namespace Tests\DataFixtures\Dto;
 
-use VK\DTOMapperBundle\Annotation\MappingMeta\DestinationClass;
-use VK\DTOMapperBundle\Annotation\MappingMeta\EmbeddedClass;
+use VKMapperBundle\Annotation\MappingMeta\DestinationClass;
+use VKMapperBundle\Annotation\MappingMeta\EmbeddedClass;
 
 /**
  * Class MappedRelationsNodeDto

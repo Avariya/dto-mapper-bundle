@@ -1,9 +1,9 @@
 <?php
 
-namespace VK\DTOMapperBundle\Annotation\MappingMeta;
+namespace VKMapperBundle\Annotation\MappingMeta;
 
 use Doctrine\Common\Annotations\Annotation;
-use VK\DTOMapperBundle\Annotation\Exception\InvalidTargetClassException;
+use VKMapperBundle\Annotation\Exception\InvalidTargetClassException;
 
 /**
  * @Annotation

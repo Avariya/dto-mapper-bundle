@@ -2,7 +2,7 @@
 
 namespace Tests\DataFixtures\Annotation;
 
-use VK\DTOMapperBundle\Annotation\MappingMeta\DestinationClass;
+use VKMapperBundle\Annotation\MappingMeta\DestinationClass;
 
 /**
  * Class EmbeddedCollectionNodeDTO

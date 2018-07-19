@@ -9,8 +9,8 @@ Example:
 
 <?php 
 
-use VK\DTOMapperBundle\Annotation\MappingMeta\DestinationClass;
-use VK\DTOMapperBundle\Annotation\MappingMeta\Strategy;
+use VKMapperBundle\Annotation\MappingMeta\DestinationClass;
+use VKMapperBundle\Annotation\MappingMeta\Strategy;
 
 class SourceObject
 {

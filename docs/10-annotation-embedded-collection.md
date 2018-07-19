@@ -8,9 +8,9 @@ Example:
 ```php
 <?php
 
-use VK\DTOMapperBundle\Annotation\MappingMeta\DestinationClass;
-use VK\DTOMapperBundle\Annotation\MappingMeta\EmbeddedCollection;
-use VK\DTOMapperBundle\Annotation\MappingMeta\NamingStrategy\SnakeCaseNamingStrategy;
+use VKMapperBundle\Annotation\MappingMeta\DestinationClass;
+use VKMapperBundle\Annotation\MappingMeta\EmbeddedCollection;
+use VKMapperBundle\Annotation\MappingMeta\NamingStrategy\SnakeCaseNamingStrategy;
 
 /**
  * @DestinationClass

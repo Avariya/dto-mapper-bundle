@@ -1,6 +1,6 @@
 <?php
 
-namespace VK\DTOMapperBundle\Annotation\MappingMeta\Strategy;
+namespace VKMapperBundle\Annotation\MappingMeta\Strategy;
 
 /**
  * Interface StrategyInterface

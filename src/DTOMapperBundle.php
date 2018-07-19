@@ -1,9 +1,9 @@
 <?php
 
-namespace VK\DTOMapperBundle;
+namespace VKMapperBundle;
 
-use VK\DTOMapperBundle\DependencyInjection\Compiler\MappingCompilePass;
-use VK\DTOMapperBundle\DependencyInjection\MapperBundleExtension;
+use VKMapperBundle\DependencyInjection\Compiler\MappingCompilePass;
+use VKMapperBundle\DependencyInjection\MapperBundleExtension;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;

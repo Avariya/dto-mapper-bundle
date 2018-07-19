@@ -2,7 +2,7 @@
 
 namespace Tests;
 
-use VK\DTOMapperBundle\DTOMapperBundle;
+use VKMapperBundle\DTOMapperBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\Config\Loader\LoaderInterface;

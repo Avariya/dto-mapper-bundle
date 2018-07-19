@@ -1,6 +1,6 @@
 <?php
 
-namespace VK\DTOMapperBundle\Annotation\MappingMeta\Strategy;
+namespace VKMapperBundle\Annotation\MappingMeta\Strategy;
 
 use Doctrine\Common\Annotations\Annotation;
 
@@ -12,7 +12,7 @@ class ChainStrategy extends AbstractStrategy
 {
     /**
      * @Required
-     * @var array<VK\DTOMapperBundle\Annotation\MappingMeta\Strategy\ChainStrategyInterface>
+     * @var array<VKMapperBundle\Annotation\MappingMeta\Strategy\ChainStrategyInterface>
      */
     public $list = [];
 

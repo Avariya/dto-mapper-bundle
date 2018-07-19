@@ -2,7 +2,7 @@
 
 namespace Tests\TestCase\Annotation;
 
-use VK\DTOMapperBundle\Annotation\MappingMeta\NamingStrategy\AbstractNamingStrategy;
+use VKMapperBundle\Annotation\MappingMeta\NamingStrategy\AbstractNamingStrategy;
 use Tests\DataFixtures\Annotation\EmbeddedCollectionRootDTO;
 use PHPUnit\Framework\TestCase;
 use Tests\TestCase\Traits\ReaderTrait;

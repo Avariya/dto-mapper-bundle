@@ -2,10 +2,10 @@
 
 namespace Tests\DataFixtures\Annotation;
 
-use VK\DTOMapperBundle\Annotation\MappingMeta\DestinationClass;
-use VK\DTOMapperBundle\Annotation\MappingMeta\EmbeddedClass;
-use VK\DTOMapperBundle\Annotation\MappingMeta\NamingStrategy;
-use VK\DTOMapperBundle\Annotation\MappingMeta\EmbeddedCollection;
+use VKMapperBundle\Annotation\MappingMeta\DestinationClass;
+use VKMapperBundle\Annotation\MappingMeta\EmbeddedClass;
+use VKMapperBundle\Annotation\MappingMeta\NamingStrategy;
+use VKMapperBundle\Annotation\MappingMeta\EmbeddedCollection;
 
 /**
  * Class EmbeddedCollectionRoot

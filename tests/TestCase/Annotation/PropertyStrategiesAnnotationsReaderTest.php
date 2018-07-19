@@ -2,7 +2,7 @@
 
 namespace Tests\TestCase\Annotation;
 
-use VK\DTOMapperBundle\Annotation\MappingMeta\Strategy\AbstractStrategy;
+use VKMapperBundle\Annotation\MappingMeta\Strategy\AbstractStrategy;
 use Tests\DataFixtures\Annotation\PropertyMappedByStrategyDTO;
 use PHPUnit\Framework\TestCase;
 use Tests\TestCase\Traits\ReaderTrait;

@@ -1,6 +1,6 @@
 <?php
 
-namespace VK\DTOMapperBundle\Annotation\Exception;
+namespace VKMapperBundle\Annotation\Exception;
 
 /**
  * Class InvalidTypeException

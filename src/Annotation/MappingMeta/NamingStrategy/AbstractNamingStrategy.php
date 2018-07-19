@@ -1,6 +1,6 @@
 <?php
 
-namespace VK\DTOMapperBundle\Annotation\MappingMeta\NamingStrategy;
+namespace VKMapperBundle\Annotation\MappingMeta\NamingStrategy;
 
 use Doctrine\Common\Annotations\Annotation;
 

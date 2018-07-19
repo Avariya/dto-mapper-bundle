@@ -25,7 +25,7 @@
   },
   "autoload": {
     "psr-4": {
-      "VK\\DTOMapperBundle\\": "src/"
+      "VKMapperBundle\\": "src/"
     }
   },
   "autoload-dev": {

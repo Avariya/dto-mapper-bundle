@@ -1,8 +1,8 @@
 <?php
 
-namespace VK\DTOMapperBundle\Mapping\Annotation;
+namespace VKMapperBundle\Mapping\Annotation;
 
-use VK\DTOMapperBundle\Annotation\Exception\UndeclaredPropertyException;
+use VKMapperBundle\Annotation\Exception\UndeclaredPropertyException;
 
 /**
  * Interface PropertyRelationsInterface

@@ -1,6 +1,6 @@
 <?php
 
-namespace VK\DTOMapperBundle\StrategyAdapter;
+namespace VKMapperBundle\StrategyAdapter;
 
 use DataMapper\Strategy\StrategyInterface;
 

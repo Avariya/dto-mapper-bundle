@@ -5,7 +5,7 @@ services:
         public: true
 
     Doctrine\Common\Annotations\AnnotationReader:
-    VK\DTOMapperBundle\Annotation\AnnotationReaderInterface:
+    VKMapperBundle\Annotation\AnnotationReaderInterface:
       alias: Doctrine\Common\Annotations\AnnotationReader
 
     DataMapper\MappingRegistry\NamingStrategyRegistry:

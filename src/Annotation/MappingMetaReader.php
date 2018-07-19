@@ -1,15 +1,15 @@
 <?php
 
-namespace VK\DTOMapperBundle\Annotation;
+namespace VKMapperBundle\Annotation;
 
-use VK\DTOMapperBundle\Annotation\Exception\DestinationClassException;
-use VK\DTOMapperBundle\Annotation\MappingMeta\DestinationClass;
-use VK\DTOMapperBundle\Annotation\MappingMeta\EmbeddedClass;
-use VK\DTOMapperBundle\Annotation\MappingMeta\EmbeddedCollection;
-use VK\DTOMapperBundle\Annotation\MappingMeta\NamingStrategy\NamingRegister;
-use VK\DTOMapperBundle\Annotation\MappingMeta\NamingStrategy\NamingStrategyInterface;
-use VK\DTOMapperBundle\Annotation\MappingMeta\Strategy\StrategyInterface;
-use VK\DTOMapperBundle\Annotation\MappingMeta\Strategy\StrategyRegister;
+use VKMapperBundle\Annotation\Exception\DestinationClassException;
+use VKMapperBundle\Annotation\MappingMeta\DestinationClass;
+use VKMapperBundle\Annotation\MappingMeta\EmbeddedClass;
+use VKMapperBundle\Annotation\MappingMeta\EmbeddedCollection;
+use VKMapperBundle\Annotation\MappingMeta\NamingStrategy\NamingRegister;
+use VKMapperBundle\Annotation\MappingMeta\NamingStrategy\NamingStrategyInterface;
+use VKMapperBundle\Annotation\MappingMeta\Strategy\StrategyInterface;
+use VKMapperBundle\Annotation\MappingMeta\Strategy\StrategyRegister;
 
 use Doctrine\Common\Annotations\Reader;
 
