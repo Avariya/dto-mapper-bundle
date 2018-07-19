@@ -9,9 +9,9 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 /**
- * Class DTOMapperBundle
+ * Class VKMapperBundle
  */
-class DTOMapperBundle extends Bundle
+class VKMapperBundle extends Bundle
 {
     /**
      * @param ContainerBuilder $container

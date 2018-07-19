@@ -28,7 +28,7 @@ Register bundle in bundles.php file.
 <?php
 
 return [
-    VKMapperBundle\DTOMapperBundle::class => ['all' => true],
+    VKMapperBundle\VKMapperBundle::class => ['all' => true],
 ];
 ```
 

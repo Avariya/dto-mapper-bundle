@@ -2,7 +2,7 @@
 
 namespace Tests;
 
-use VKMapperBundle\DTOMapperBundle;
+use VKMapperBundle\VKMapperBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\Config\Loader\LoaderInterface;
@@ -40,7 +40,7 @@ class Kernel extends BaseKernel
     {
         return [
             new FrameworkBundle(),
-            new DTOMapperBundle(),
+            new VKMapperBundle(),
         ];
     }
 
