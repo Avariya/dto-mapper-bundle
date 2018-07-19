@@ -121,7 +121,7 @@ class MappingMetaReader
                 continue;
             }
 
-            foreach (array_merge(\array_values($filtered), \array_values($registered)) as $propertyStrategy) {
+            foreach (\array_merge(\array_values($filtered), \array_values($registered)) as $propertyStrategy) {
                 yield $property->getName() => $propertyStrategy;
             }
         }

@@ -2,8 +2,10 @@
 
 # Strategy annotations 
 
-Use strategy declaration to describe how **Mapper** should fetch value from source to mapped property.
+Use strategy declaration to describe how **Mapper** should fetch value from *source* to mapped property.
 
+**source** (optional) - Register strategy only to specific source object.
+default: Applies this strategy to all provided source objects. 
 
 Example:
 ```php

@@ -45,5 +45,17 @@ services:
       alias: DataMapper\MappingRegistry\HydratorRegistry
 
     DataMapper\Hydrator\CollectionHydrator:
+      # default NamingStrategy
+      calls:
+          - method: setNamingStrategy
+            arguments:
+                - '@DataMapper\NamingStrategy\SnakeCaseNamingStrategy'
+
     DataMapper\Hydrator\ArraySerializableHydrator:
+      # default NamingStrategy
+      calls:
+          - method: setNamingStrategy
+            arguments:
+                - '@DataMapper\NamingStrategy\UnderscoreNamingStrategy'
+
     DataMapper\Hydrator\ObjectHydrator:

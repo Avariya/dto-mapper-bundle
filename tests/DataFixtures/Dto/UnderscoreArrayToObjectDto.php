@@ -2,15 +2,15 @@
 
 namespace Tests\DataFixtures\Dto;
 
-use VKMapperBundle\Annotation\MappingMeta\DestinationClass;
-use VKMapperBundle\Annotation\MappingMeta\NamingStrategy\UnderscoreNamingStrategy;
 use Tests\DataFixtures\Model\Extractor\UnderscoreInnerObject;
+use VKMapperBundle\Annotation\MappingMeta\DestinationClass;
+use VKMapperBundle\Annotation\MappingMeta\EmbeddedClass;
 
 /**
- * Class ObjectToUnderscoreArrayDto
+ * Class UnderscoreArrayToObjectDto
  * @DestinationClass
  */
-class ObjectToUnderscoreArrayDto
+class UnderscoreArrayToObjectDto
 {
     /**
      * @var string
@@ -23,7 +23,7 @@ class ObjectToUnderscoreArrayDto
     public $bOption = 'b';
 
     /**
-     * @var UnderscoreInnerObject
+     * @EmbeddedClass(target="Tests\DataFixtures\Model\Extractor\UnderscoreInnerObject")
      */
     public $cOption;
 

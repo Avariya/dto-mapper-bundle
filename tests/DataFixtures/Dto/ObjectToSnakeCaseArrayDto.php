@@ -3,8 +3,8 @@
 namespace Tests\DataFixtures\Dto;
 
 use VKMapperBundle\Annotation\MappingMeta\DestinationClass;
-use VKMapperBundle\Annotation\MappingMeta\NamingStrategy\SnakeCaseNamingStrategy;
 use Tests\DataFixtures\Model\Extractor\SnakeCaseInnerObject;
+use VKMapperBundle\Annotation\MappingMeta\NamingStrategy\SnakeCaseNamingStrategy;
 
 /**
  * Class ObjectToSnakeCaseArrayDto
