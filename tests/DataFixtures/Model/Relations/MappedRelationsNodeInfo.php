@@ -7,6 +7,6 @@ namespace Tests\DataFixtures\Model\Relations;
  */
 class MappedRelationsNodeInfo
 {
-    public $author;
-    public $time;
+    public $author = 'default';
+    public $time = 42;
 }
