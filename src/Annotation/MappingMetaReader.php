@@ -3,13 +3,9 @@
 namespace VKMapperBundle\Annotation;
 
 use VKMapperBundle\Annotation\Exception\DestinationClassException;
-use VKMapperBundle\Annotation\MappingMeta\DestinationClass;
-use VKMapperBundle\Annotation\MappingMeta\EmbeddedClass;
-use VKMapperBundle\Annotation\MappingMeta\EmbeddedCollection;
-use VKMapperBundle\Annotation\MappingMeta\NamingStrategy\NamingRegister;
-use VKMapperBundle\Annotation\MappingMeta\NamingStrategy\NamingStrategyInterface;
-use VKMapperBundle\Annotation\MappingMeta\Strategy\StrategyInterface;
-use VKMapperBundle\Annotation\MappingMeta\Strategy\StrategyRegister;
+use VKMapperBundle\Annotation\MappingMeta\{DestinationClass, EmbeddedClass, EmbeddedCollection, SourceClass};
+use VKMapperBundle\Annotation\MappingMeta\NamingStrategy\{NamingRegister,NamingStrategyInterface};
+use VKMapperBundle\Annotation\MappingMeta\Strategy\{StrategyInterface, StrategyRegister};
 
 use Doctrine\Common\Annotations\Reader;
 
@@ -27,6 +23,21 @@ class MappingMetaReader
      * @var \ReflectionClass
      */
     private $reflectionClass;
+
+    /**
+     * @var bool
+     */
+    private $skip = true;
+
+    /**
+     * @var bool
+     */
+    private $isSource = false;
+
+    /**
+     * @var bool
+     */
+    private $isDestination = false;
 
     /**
      * @throws DestinationClassException
@@ -54,11 +65,16 @@ class MappingMetaReader
         $this->reader = $reader;
         $this->reflectionClass = new \ReflectionClass($className);
         $isDestination = $this->reader->getClassAnnotation($this->reflectionClass, DestinationClass::class);
+        $iSource = $this->reader->getClassAnnotation($this->reflectionClass, SourceClass::class);
 
-        if (!$isDestination) {
-            throw new DestinationClassException(
-                $this->reflectionClass->getName() . ' - is not registered as DestinationClass.'
-            );
+        if (null !== $isDestination) {
+            $this->skip = false;
+            $this->isDestination = true;
+        }
+
+        if (null !== $iSource) {
+            $this->skip = false;
+            $this->isSource = true;
         }
     }
 
@@ -67,6 +83,7 @@ class MappingMetaReader
      */
     public function getNamingStrategies(): \Generator
     {
+        $this->validate();
         $namingRegister = $this->reader->getClassAnnotation($this->reflectionClass, NamingRegister::class);
         $registered = $namingRegister !== null ? $namingRegister->getFor() : [];
         $filteredNaming = \array_filter(
@@ -86,6 +103,7 @@ class MappingMetaReader
      */
     public function getRelationsProperties(): \Generator
     {
+        $this->validate();
         $reflectionProperties = $this->reflectionClass->getProperties();
 
         foreach ($reflectionProperties as $property) {
@@ -104,6 +122,7 @@ class MappingMetaReader
      */
     public function getPropertiesStrategies(): \Generator
     {
+        $this->validate();
         $reflectionProperties = $this->reflectionClass->getProperties();
 
         foreach ($reflectionProperties as $property) {
@@ -124,6 +143,43 @@ class MappingMetaReader
             foreach (\array_merge(\array_values($filtered), \array_values($registered)) as $propertyStrategy) {
                 yield $property->getName() => $propertyStrategy;
             }
+        }
+    }
+
+    /**
+     * @return bool
+     */
+    public function isSource(): bool
+    {
+        return $this->isSource;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isDestination(): bool
+    {
+        return $this->isDestination;
+    }
+
+    /**
+     * @return bool
+     */
+    public function skip(): bool
+    {
+        return $this->skip;
+    }
+
+    /**
+     * can read
+     */
+    public function validate(): void
+    {
+        if (true === $this->skip()) {
+            throw new DestinationClassException(
+                $this->reflectionClass->getName() .
+                ' - is not registered, please use DestinationClass or SourceClass annotations on class.'
+            );
         }
     }
 }

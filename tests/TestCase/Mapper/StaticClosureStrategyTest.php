@@ -18,7 +18,7 @@ class StaticClosureStrategyTest extends AbstractMapperTest
         $mapper = $this->getMapper();
         $source = new ClosureSource();
         $dto = $mapper->convert($source, StaticClosureDto::class);
-        $this->assertContains((string) $source->getSum(), $dto->myValue);
-        $this->assertContains(ClosureProvider::getText(), $dto->myValue);
+        $this->assertContains((string) $source->getSum(), $dto->myValueB);
+        $this->assertContains(ClosureProvider::getText(), $dto->myValueB);
     }
 }

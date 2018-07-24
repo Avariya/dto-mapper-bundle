@@ -10,7 +10,7 @@ interface StrategyInterface
     /**
      * @return string
      */
-    public function getSource(): string;
+    public function getSource(): ?string;
 
     /**
      * @return string

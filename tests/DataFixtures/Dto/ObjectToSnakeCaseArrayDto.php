@@ -2,13 +2,13 @@
 
 namespace Tests\DataFixtures\Dto;
 
-use VKMapperBundle\Annotation\MappingMeta\DestinationClass;
 use Tests\DataFixtures\Model\Extractor\SnakeCaseInnerObject;
 use VKMapperBundle\Annotation\MappingMeta\NamingStrategy\SnakeCaseNamingStrategy;
+use VKMapperBundle\Annotation\MappingMeta\SourceClass;
 
 /**
  * Class ObjectToSnakeCaseArrayDto
- * @DestinationClass
+ * @SourceClass
  * @SnakeCaseNamingStrategy
  */
 class ObjectToSnakeCaseArrayDto

@@ -25,7 +25,7 @@ class ChainClosureProvider
      */
     public static function multiply2(): \Closure
     {
-        return function (int $value): string {
+        return function (ChainSource $source, int $value): string {
             return $value * 2;
         };
     }
@@ -35,7 +35,7 @@ class ChainClosureProvider
      */
     public function multiplyOnInnerValue(): \Closure
     {
-        return function (int $value): string {
+        return function (ChainSource $source, $value): string {
             return $value * $this->innerScopeObject->getValue();
         };
     }

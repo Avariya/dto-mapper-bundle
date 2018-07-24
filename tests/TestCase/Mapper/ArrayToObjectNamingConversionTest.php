@@ -17,16 +17,12 @@ class ArrayToObjectNamingConversionTest extends AbstractMapperTest
     public function testKeysConversion(array $source): void
     {
         $mapper = $this->getMapper();
+        /** @var UnderscoreArrayToObjectDto $dto */
+        $dto = $mapper->convert($source, new UnderscoreArrayToObjectDto());
+        $this->assertPropsValues($dto, $source);
 
-        $this->assertPropsValues(
-            $mapper->convert($source, new UnderscoreArrayToObjectDto()),
-            $source
-        );
-
-        $this->assertPropsValues(
-            $mapper->convert($source, UnderscoreArrayToObjectDto::class),
-            $source
-        );
+        $dto = $mapper->convert($source, UnderscoreArrayToObjectDto::class);
+        $this->assertPropsValues($dto, $source);
     }
 
     /**

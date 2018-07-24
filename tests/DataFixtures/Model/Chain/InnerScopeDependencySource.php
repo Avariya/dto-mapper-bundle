@@ -2,8 +2,11 @@
 
 namespace Tests\DataFixtures\Model\Chain;
 
+use VKMapperBundle\Annotation\MappingMeta\DestinationClass;
+
 /**
  * Class InnerScopeDependencySource
+ * @DestinationClass
  */
 class InnerScopeDependencySource
 {

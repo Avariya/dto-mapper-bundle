@@ -13,7 +13,6 @@ class CompilePassMappedDTO
 {
     /**
      * @Strategy\ChainStrategy(
-     *     source="testSource",
      *     list={
      *          @Strategy\GetterStrategy(method="getMe"),
      *          @Strategy\XPathStrategy(xPath="some.example.path")
@@ -23,19 +22,18 @@ class CompilePassMappedDTO
 
     /**
      * @Strategy\StrategyRegister(for={
-     *      @Strategy\GetterStrategy(source="Tests\DataFixtures\Model\GeneralSource", method="getMe")
+     *      @Strategy\GetterStrategy(method="getMe")
      * })
      */
     public $testPropertyB;
 
     /**
-     * @Strategy\GetterStrategy(source="Tests\DataFixtures\Model\GeneralSource", method="getMe")
+     * @Strategy\GetterStrategy(method="getMe")
      */
     public $testPropertyC;
 
     /**
      * @Strategy\ServiceClosureStrategy(
-     *     source="Tests\DataFixtures\Model\GeneralSource",
      *     provider="serviceId",
      *     method="getClosure"
      * )
@@ -44,7 +42,6 @@ class CompilePassMappedDTO
 
     /**
      * @Strategy\StaticClosureStrategy(
-     *     source="Tests\DataFixtures\Model\GeneralSource",
      *     provider="Tests\DataFixtures\Service\ClosureStrategyService",
      *     method="getStaticClosure"
      * )
@@ -52,7 +49,7 @@ class CompilePassMappedDTO
     public $testPropertyE;
 
     /**
-     * @Strategy\XPathStrategy(source="Tests\DataFixtures\Model\GeneralSource", xPath="some.example.path")
+     * @Strategy\XPathStrategy(xPath="some.example.path")
      */
     public $testPropertyF;
 }

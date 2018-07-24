@@ -17,3 +17,10 @@ services:
     autowire: true
     tags:
         - { name: dto_mapper.destination }
+        - { name: dto_mapper.source }
+
+  Tests\DataFixtures\Model\:
+    resource: '../../DataFixtures/Model/*/*'
+    autowire: true
+    tags:
+        - { name: dto_mapper.source }

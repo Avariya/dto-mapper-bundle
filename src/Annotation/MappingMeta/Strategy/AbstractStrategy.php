@@ -12,12 +12,12 @@ abstract class AbstractStrategy implements StrategyInterface
     /**
      * @var string
      */
-    public $source = TypeDict::ALL_TYPE;
+    public $source;
 
     /**
      * @return string
      */
-    public function getSource(): string
+    public function getSource(): ?string
     {
         return $this->source;
     }

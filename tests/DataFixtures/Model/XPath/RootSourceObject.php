@@ -2,15 +2,24 @@
 
 namespace Tests\DataFixtures\Model\XPath;
 
+use VKMapperBundle\Annotation\MappingMeta\SourceClass;
+use VKMapperBundle\Annotation\MappingMeta\Strategy;
+
 /**
  * Class RootSourceObject
+ * @SourceClass
  */
 class RootSourceObject
 {
     /**
-     * @var NodeAObject
+     * @Strategy\XPathStrategy(xPath="nodeA.inner.optionA")
      */
     public $nodeA;
+
+    /**
+     * @Strategy\XPathStrategy(xPath="nodeB.inner.optionB")
+     */
+    public $nodeB;
 
     /**
      * RootSourceObject constructor.
@@ -18,5 +27,6 @@ class RootSourceObject
     public function __construct()
     {
         $this->nodeA = new NodeAObject();
+        $this->nodeB = new NodeAObject();
     }
 }

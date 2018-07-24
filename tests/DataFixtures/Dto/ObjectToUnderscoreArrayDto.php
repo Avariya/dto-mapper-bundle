@@ -2,13 +2,12 @@
 
 namespace Tests\DataFixtures\Dto;
 
-use VKMapperBundle\Annotation\MappingMeta\DestinationClass;
-use VKMapperBundle\Annotation\MappingMeta\NamingStrategy\UnderscoreNamingStrategy;
 use Tests\DataFixtures\Model\Extractor\UnderscoreInnerObject;
+use VKMapperBundle\Annotation\MappingMeta\SourceClass;
 
 /**
  * Class ObjectToUnderscoreArrayDto
- * @DestinationClass
+ * @SourceClass
  */
 class ObjectToUnderscoreArrayDto
 {
