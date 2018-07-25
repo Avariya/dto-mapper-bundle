@@ -4,15 +4,12 @@
 use VKMapperBundle\Annotation\MappingMeta\DestinationClass;
 use VKMapperBundle\Annotation\MappingMeta\EmbeddedClass;
 use VKMapperBundle\Annotation\MappingMeta\EmbeddedCollection;
-use VKMapperBundle\Annotation\MappingMeta\NamingStrategy\SnakeCaseNamingStrategy;
 use DataMapper\MapperInterface;
 
 /**
  * Class MappedRelationsRootDto
  *
- * @DestinationClass(namingStrategies={
- *    @SnakeCaseNamingStrategy
- * })
+ * @DestinationClass()
  */
 class MappedRelationsRootDto
 {

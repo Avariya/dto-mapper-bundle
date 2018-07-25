@@ -6,87 +6,97 @@ to dto mapper convert source props to target classes and apply all described str
 
 use VKMapperBundle\Annotation\MappingMeta\EmbeddedClass;
 use VKMapperBundle\Annotation\MappingMeta\SourceClass;
+use VKMapperBundle\Annotation\MappingMeta\DestinationClass;
 use VKMapperBundle\Annotation\MappingMeta\Strategy;
 use DataMapper\MapperInterface;
 
 /**
  * Class DtoObjectToObject
- * @SourceClass
+ * @DestinationClass()
  */
-class DtoObjectToObject
+class ArrayToDto
 {
     /**
-     * @EmbeddedClass(target="Tests\DataFixtures\Model\Relations\DtoToObjectSourceConvertedProp")
+     * @var DtoNode
+     * @EmbeddedClass(target="Tests\DataFixtures\Dto\ObjectToObject\DtoNode")
      */
     public $nodeA;
+}
 
-    public function __construct()
+/**
+ * Class DtoNode
+ * @SourceClass
+ */
+class DtoNode
+{
+    /**
+     * @Strategy\GetterStrategy(method="getOptionA")
+     */
+    public $optionA = 1;
+
+    /**
+     * @Strategy\GetterStrategy(method="getOptionB")
+     */
+    public $optionB = 2;
+
+    /**
+     * @return string
+     */
+    public function getOptionA(): string
     {
-        $this->nodeA = new DtoObjectToObjectNodeA();
+        return 'Hello ' . $this->optionA .' A!';
+    }
+
+    /**
+     * @return string
+     */
+    public function getOptionB(): string
+    {
+        return 'Hello ' . $this->optionB .' B!';
     }
 }
+
 
 /**
  * Class DtoObjectToObjectNodeA
- * @SourceClass
- */
-class DtoObjectToObjectNodeA
-{
-    /**
-     * @Strategy\GetterStrategy(method="getA")
-     */
-    public $optionA;
-
-    /**
-     * @Strategy\GetterStrategy(method="getB")
-     */
-    public $optionB;
-
-    /**
-     * @Strategy\GetterStrategy(method="getC")
-     */
-    public $optionC;
-
-    /**
-     * @return string
-     */
-    public function getA(): string
-    {
-        return 'Hello from a!';
-    }
-    /**
-     * @return string
-     */
-    public function getB(): string
-    {
-        return 'Hello from b!';
-    }
-    /**
-     * @return string
-     */
-    public function getC(): string
-    {
-        return 'Hello from c!';
-    }
-}
-
-use VKMapperBundle\Annotation\MappingMeta\DestinationClass;
-
-/**
- * Class DtoToObjectSourceProp
  * @DestinationClass
  */
-class DtoToObjectSourceConvertedProp
+class DtoToObject
+{
+    /**
+     * @var ObjectNode
+     * @EmbeddedClass(target="Tests\DataFixtures\Dto\ObjectToObject\ObjectNode")
+     */
+    public $nodeA;
+}
+
+/**
+ * Class ObjectNode
+ * @DestinationClass
+ */
+class ObjectNode
 {
     public $optionA;
     public $optionB;
-    public $optionC;
 }
 
+
+$array = [
+    'nodeA' => [
+        'optionA' => 123,
+        'optionB' => 321,
+    ]
+];
+
 /** @var MapperInterface $mapper */
-$dto = $mapper->convert($source, DtoObjectToObject::class);
-$this->assertInstanceOf(DtoToObjectSourceConvertedProp::class, $dto->nodeA);
-$this->assertEquals($source->nodeA->getA(), $dto->nodeA->optionA);
-$this->assertEquals($source->nodeA->getB(), $dto->nodeA->optionB);
-$this->assertEquals($source->nodeA->getC(), $dto->nodeA->optionC);
+/** @var ArrayToDto $dto */
+$dto = $mapper->convert($array, ArrayToDto::class);
+/** @var DtoToObject $dto2 */
+$dto2 = $mapper->convert($dto, DtoToObject::class);
+$this->assertEquals($dto->nodeA->optionA, $array['nodeA']['optionA']);
+$this->assertEquals($dto->nodeA->optionB, $array['nodeA']['optionB']);
+$this->assertInstanceOf(DtoNode::class, $dto->nodeA);
+$this->assertInstanceOf(ObjectNode::class, $dto2->nodeA);
+$this->assertContains($dto2->nodeA->optionA, $dto->nodeA->getOptionA());
+$this->assertContains($dto2->nodeA->optionB, $dto->nodeA->getOptionB());
 ```

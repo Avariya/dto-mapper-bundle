@@ -5,14 +5,11 @@ use DataMapper\MapperInterface;
 use Tests\DataFixtures\Model\Extractor\UnderscoreInnerObject;
 use VKMapperBundle\Annotation\MappingMeta\DestinationClass;
 use VKMapperBundle\Annotation\MappingMeta\EmbeddedClass;
-use VKMapperBundle\Annotation\MappingMeta\NamingStrategy\SnakeCaseNamingStrategy;
-use VKMapperBundle\Annotation\MappingMeta\NamingStrategy\UnderscoreNamingStrategy;
 
 /**
- * Class UnderscoreArrayToObjectDto
- * @DestinationClass(namingStrategies={
- *      @SnakeCaseNamingStrategy
- * })
+ * Default naming strategy for array to object convertion is SnakeCaseNamingStrategy
+ * 
+ * @DestinationClass()
  */
 class UnderscoreArrayToObjectDto
 {
@@ -53,20 +50,16 @@ $source = [
 $dto = $mapper->convert($source, UnderscoreArrayToObjectDto::class);
 ```
 
-or use VKMapperBundle\Annotation\MappingMeta\NamingStrategy\UnderscoreNamingStrategy to 
-cast format object props to array keys
+Default naming strategy for object to array convertion is UnderscoreNamingStrategy
 
 ```php
 <?php
 use DataMapper\MapperInterface;
 use VKMapperBundle\Annotation\MappingMeta\SourceClass;
-use VKMapperBundle\Annotation\MappingMeta\NamingStrategy\UnderscoreNamingStrategy;
 
 /**
  * Class ObjectToUnderscoreArrayDto
- * @SourceClass(namingStrategies={
- *     @UnderscoreNamingStrategy
- * })
+ * @SourceClass()
  */
 class ObjectToUnderscoreArrayDto
 {

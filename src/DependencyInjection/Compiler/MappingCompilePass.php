@@ -2,6 +2,9 @@
 
 namespace VKMapperBundle\DependencyInjection\Compiler;
 
+use DataMapper\MapperInterface;
+use DataMapper\NamingStrategy\SnakeCaseNamingStrategy;
+use DataMapper\NamingStrategy\UnderscoreNamingStrategy;
 use DataMapper\Type\TypeDict;
 use VKMapperBundle\Annotation\Exception\InvalidTypeException;
 use VKMapperBundle\Annotation\MappingMeta\EmbeddedInterface;
@@ -92,55 +95,31 @@ class MappingCompilePass implements CompilerPassInterface
 
         /** @var MappingMetaReader $metaReader */
         foreach ($this->loadDestinationsClassesMapping($container) as $id => $metaReader) {
-            if ($metaReader->skip() || !$metaReader->isDestination()) {
+            if ($metaReader->skip()) {
                 continue;
             }
 
             $destinationRegistry->addMethodCall('registerDestinationClass', [$id]);
             $this
-                ->registerDestinationRelations($container, $metaReader, $id)
-                ->registerDestinationNaming($container, $metaReader, $id);
+                ->registerNaming($container, $metaReader, $id)
+                ->registerRelations($container, $metaReader, $id);
         }
 
+        /** @var MappingMetaReader $metaReader */
         foreach ($this->loadSourcesClassesMapping($container) as $id => $metaReader) {
-            if ($metaReader->skip() || !$metaReader->isSource()) {
+            if ($metaReader->skip()) {
                 continue;
             }
 
             $destinationRegistry->addMethodCall('registerSourceClass', [$id]);
-            $this
-                ->registerSourceStrategy($container, $metaReader, $id)
-                ->registerSourceNaming($container, $metaReader, $id)
-                ->registerSourceRelations($container, $metaReader, $id);
 
-        }
-
-        return $this;
-    }
-
-    /**
-     * @param ContainerBuilder  $container
-     * @param MappingMetaReader $reader
-     * @param string            $id
-     *
-     * @return MappingCompilePass
-     */
-    private function registerSourceNaming(
-        ContainerBuilder $container,
-        MappingMetaReader $reader,
-        string $id
-    ): self {
-        $namingStrategyRegistry = $container->getDefinition(MappingRegistry\NamingStrategyRegistry::class);
-
-        /** @var NamingStrategyInterface $namingStrategy */
-        foreach ($reader->getSourceNamingStrategies() as $namingStrategy) {
-            $key = TypeResolver::getStrategyType($id, TypeDict::ALL_TYPE);
-            $namingStrategyDefinition = $this->createNamingStrategy($namingStrategy);
-            if (!empty($namingStrategy->getSource())) {
-                $key = TypeResolver::getStrategyType($id, $namingStrategy->getSource());
+            if (false === $metaReader->isDestination()) {
+                $this
+                    ->registerNaming($container, $metaReader, $id)
+                    ->registerRelations($container, $metaReader, $id);
             }
 
-            $namingStrategyRegistry->addMethodCall('registerNamingStrategy', [$key, $namingStrategyDefinition,]);
+            $this->registerSourceStrategies($container, $metaReader, $id);
         }
 
         return $this;
@@ -148,20 +127,19 @@ class MappingCompilePass implements CompilerPassInterface
 
     /**
      * @param ContainerBuilder  $container
-     * @param MappingMetaReader $reader
+     * @param MappingMetaReader $metaReader
      * @param string            $id
      *
      * @return MappingCompilePass
      */
-    private function registerSourceStrategy(
+    private function registerSourceStrategies(
         ContainerBuilder $container,
-        MappingMetaReader $reader,
+        MappingMetaReader $metaReader,
         string $id
     ): self {
         $strategyRegistry = $container->getDefinition(MappingRegistry\StrategyRegistry::class);
-
-        foreach ($reader->getPropertiesStrategies() as $propertyName => $strategy) {
-            if (null === $this->createStrategyDefinition($container, $strategy)) {
+        foreach ($metaReader->getPropertiesStrategies() as $propertyName => $strategy) {
+            if (false === $metaReader->isSource()) {
                 continue;
             }
 
@@ -180,131 +158,25 @@ class MappingCompilePass implements CompilerPassInterface
     }
 
     /**
-     * @param ContainerBuilder      $container
-     * @param MetaStrategyInterface $strategy
-     *
-     * @return Definition
-     */
-    private function createStrategyDefinition(
-        ContainerBuilder $container,
-        MetaStrategyInterface $strategy
-    ): Definition {
-
-        switch (\get_class($strategy)) {
-            case MetaStrategy\GetterStrategy::class:
-                return (
-                    new Definition(
-                        Strategy\GetterStrategy::class,
-                        [
-                            $strategy->getMethod()
-                        ]
-                    )
-                )->setLazy(true);
-            case MetaStrategy\PropertyFormatterStrategy::class:
-                return (
-                    new Definition(
-                        Strategy\FormatterStrategy::class,
-                        [
-                            $strategy->getMethod()
-                        ]
-                    )
-                )->setLazy(true);
-            case MetaStrategy\XPathStrategy::class:
-                return (
-                    new Definition(
-                        Strategy\XPathGetterStrategy::class,
-                        [
-                            new Reference(ArrayCollectionHydrator::class),
-                            $strategy->getXPath(),
-                        ]
-                    )
-                )->setLazy(true);
-            case MetaStrategy\StaticClosureStrategy::class:
-                return (
-                    new Definition(
-                        StaticClosureStrategyAdapter::class,
-                        [
-                            $strategy->getProvider(),
-                            $strategy->getMethod(),
-                        ]
-                    )
-                )->setLazy(true);
-            case MetaStrategy\ChainStrategy::class:
-                $args = [];
-                foreach ($strategy->getList() as $singleStrategy) {
-                    $args[] = $this->createStrategyDefinition($container, $singleStrategy);
-                }
-
-                return (
-                    new Definition(
-                        Strategy\ChainStrategy::class,
-                        [$args]
-                    )
-                )->setLazy(true);
-            case MetaStrategy\ServiceClosureStrategy::class:
-                return (
-                    new Definition(
-                        ServiceClosureStrategyAdapter::class,
-                        [
-                            new Reference($strategy->getProvider()),
-                            $strategy->getMethod(),
-                        ]
-                    )
-                )->setLazy(true);
-        }
-    }
-
-    /**
      * @param ContainerBuilder  $container
-     * @param MappingMetaReader $reader
+     * @param MappingMetaReader $metaReader
      * @param string            $id
      *
      * @return MappingCompilePass
      */
-    private function registerDestinationNaming(
+    private function registerRelations(
         ContainerBuilder $container,
-        MappingMetaReader $reader,
+        MappingMetaReader $metaReader,
         string $id
     ): self {
-        $namingStrategyRegistry = $container->getDefinition(MappingRegistry\NamingStrategyRegistry::class);
-
-        /** @var NamingStrategyInterface $namingStrategy */
-        foreach ($reader->getDestinationNamingStrategies() as $namingStrategy) {
-            // Default naming for array to dto mapping and dto to array extraction
-            $key = TypeResolver::getStrategyType(TypeDict::ALL_TYPE, $id);
-            $namingStrategyDefinition = $this->createNamingStrategy($namingStrategy);
-            if (!empty($namingStrategy->getSource())) {
-                $key = TypeResolver::getStrategyType($namingStrategy->getSource(), $id);
-            }
-
-            $namingStrategyRegistry->addMethodCall('registerNamingStrategy', [$key, $namingStrategyDefinition,]);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @param ContainerBuilder  $container
-     * @param MappingMetaReader $reader
-     * @param string            $id
-     *
-     * @return MappingCompilePass
-     */
-    private function registerDestinationRelations(
-        ContainerBuilder $container,
-        MappingMetaReader $reader,
-        string $id
-    ): self {
-        $relationsRegistry = $container->getDefinition(MappingRegistry\RelationsRegistry::class);
         $strategyRegistry = $container->getDefinition(MappingRegistry\StrategyRegistry::class);
 
         /** @var EmbeddedInterface $embedded */
-        foreach ($reader->getRelationsProperties() as $propertyName => $embedded) {
-            $relationsRegistry->addMethodCall(
-                'registerRelationsMapping',
+        foreach ($metaReader->getRelationsProperties() as $propertyName => $embedded) {
+            $strategy = new Definition(
+                Strategy\CollectionStrategy::class,
                 [
-                    $propertyName,
-                    $id,
+                    new Reference(MapperInterface::class),
                     $embedded->getTarget(),
                     $embedded->isMulti(),
                 ]
@@ -316,13 +188,24 @@ class MappingCompilePass implements CompilerPassInterface
                 [
                     $strategyKey,
                     $propertyName,
-                    new Reference(Strategy\SerializerStrategy::class),
+                    $strategy,
+                ]
+            );
+
+            $strategyKey = TypeResolver::getStrategyType(TypeDict::ALL_TYPE, $id);
+            $strategyRegistry->addMethodCall(
+                'registerPropertyStrategy',
+                [
+                    $strategyKey,
+                    $propertyName,
+                    $strategy,
                 ]
             );
         }
 
         return $this;
     }
+
     /**
      * @param ContainerBuilder  $container
      * @param MappingMetaReader $reader
@@ -330,38 +213,132 @@ class MappingCompilePass implements CompilerPassInterface
      *
      * @return MappingCompilePass
      */
-    private function registerSourceRelations(
+    private function registerNaming(
         ContainerBuilder $container,
         MappingMetaReader $reader,
         string $id
     ): self {
-        $relationsRegistry = $container->getDefinition(MappingRegistry\RelationsRegistry::class);
-        $strategyRegistry = $container->getDefinition(MappingRegistry\StrategyRegistry::class);
+        $namingStrategyRegistry = $container->getDefinition(MappingRegistry\NamingStrategyRegistry::class);
 
-        /** @var EmbeddedInterface $embedded */
-        foreach ($reader->getRelationsProperties() as $propertyName => $embedded) {
-            $relationsRegistry->addMethodCall(
-                'registerRelationsMapping',
+        $hasDefaultSource = false;
+        foreach ($reader->getSourceNamingStrategies() as $namingStrategy) {
+            $hasDefaultSource = true;
+            $definition = $this->createNamingStrategy($namingStrategy);
+            $namingStrategyRegistry->addMethodCall(
+                'registerNamingStrategy',
                 [
-                    $propertyName,
-                    $id,
-                    $embedded->getTarget(),
-                    $embedded->isMulti(),
+                    TypeResolver::getStrategyType($id, TypeDict::ALL_TYPE),
+                    $definition,
                 ]
             );
+        }
 
-            $strategyKey = TypeResolver::getStrategyType($id, TypeDict::ALL_TYPE);
-            $strategyRegistry->addMethodCall(
-                'registerPropertyStrategy',
+        if (false === $hasDefaultSource) {
+            $namingStrategyRegistry->addMethodCall(
+                'registerNamingStrategy',
                 [
-                    $strategyKey,
-                    $propertyName,
-                    new Reference(Strategy\CollectionStrategy::class),
+                    TypeResolver::getStrategyType($id, TypeDict::ARRAY_TYPE),
+                    new Definition(UnderscoreNamingStrategy::class),
+                ]
+            );
+        }
+
+        $hasDefaultDestination = false;
+        foreach ($reader->getDestinationNamingStrategies() as $namingStrategy) {
+            $hasDefaultDestination = true;
+            $definition = $this->createNamingStrategy($namingStrategy);
+            $namingStrategyRegistry->addMethodCall(
+                'registerNamingStrategy',
+                [
+                    TypeResolver::getStrategyType(TypeDict::ALL_TYPE, $id),
+                    $definition,
+                ]
+            );
+        }
+
+        if (false === $hasDefaultDestination) {
+            $namingStrategyRegistry->addMethodCall(
+                'registerNamingStrategy',
+                [
+                    TypeResolver::getStrategyType(TypeDict::ARRAY_TYPE, $id),
+                    new Definition(SnakeCaseNamingStrategy::class),
                 ]
             );
         }
 
         return $this;
+    }
+
+    /**
+     * @param ContainerBuilder      $container
+     * @param MetaStrategyInterface $strategy
+     *
+     * @return Definition
+     */
+    private function createStrategyDefinition(ContainerBuilder $container, MetaStrategyInterface $strategy): Definition
+    {
+        switch (\get_class($strategy)) {
+            case MetaStrategy\GetterStrategy::class:
+                return (
+                new Definition(
+                    Strategy\GetterStrategy::class,
+                    [
+                        $strategy->getMethod()
+                    ]
+                )
+                )->setLazy(true);
+            case MetaStrategy\PropertyFormatterStrategy::class:
+                return (
+                new Definition(
+                    Strategy\FormatterStrategy::class,
+                    [
+                        $strategy->getMethod()
+                    ]
+                )
+                )->setLazy(true);
+            case MetaStrategy\XPathStrategy::class:
+                return (
+                new Definition(
+                    Strategy\XPathGetterStrategy::class,
+                    [
+                        new Reference(ArrayCollectionHydrator::class),
+                        $strategy->getXPath(),
+                    ]
+                )
+                )->setLazy(true);
+            case MetaStrategy\StaticClosureStrategy::class:
+                return (
+                new Definition(
+                    StaticClosureStrategyAdapter::class,
+                    [
+                        $strategy->getProvider(),
+                        $strategy->getMethod(),
+                    ]
+                )
+                )->setLazy(true);
+            case MetaStrategy\ChainStrategy::class:
+                $args = [];
+                foreach ($strategy->getList() as $singleStrategy) {
+                    $args[] = $this->createStrategyDefinition($container, $singleStrategy);
+                }
+
+                return (
+                new Definition(
+                    Strategy\ChainStrategy::class,
+                    [$args]
+                )
+                )->setLazy(true);
+            case MetaStrategy\ServiceClosureStrategy::class:
+                return (
+                new Definition(
+                    ServiceClosureStrategyAdapter::class,
+                    [
+                        new Reference($strategy->getProvider()),
+                        $strategy->getMethod(),
+                    ]
+                )
+                )->setLazy(true);
+        }
     }
 
     /**

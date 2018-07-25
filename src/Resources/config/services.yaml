@@ -16,10 +16,6 @@ services:
     DataMapper\MappingRegistry\DestinationRegistryInterface:
       alias: DataMapper\MappingRegistry\DestinationRegistry
 
-    DataMapper\MappingRegistry\RelationsRegistry:
-    DataMapper\MappingRegistry\RelationsRegistryInterface:
-      alias: DataMapper\MappingRegistry\RelationsRegistry
-
     DataMapper\MappingRegistry\StrategyRegistry:
     DataMapper\MappingRegistry\StrategyRegistryInterface:
       alias: DataMapper\MappingRegistry\StrategyRegistry
@@ -27,16 +23,6 @@ services:
     DataMapper\Hydrator\HydratorFactory:
     DataMapper\Hydrator\HydratorFactoryInterface:
       alias: DataMapper\Hydrator\HydratorFactory
-
-    DataMapper\Strategy\CollectionStrategy:
-      arguments:
-        - '@DataMapper\MapperInterface'
-        - '@DataMapper\MappingRegistry\RelationsRegistryInterface'
-
-    DataMapper\Strategy\SerializerStrategy:
-      arguments:
-        - '@DataMapper\Hydrator\ArrayCollectionHydrator'
-        - '@DataMapper\MappingRegistry\RelationsRegistryInterface'
 
     DataMapper\Mapper:
     DataMapper\MapperInterface:
