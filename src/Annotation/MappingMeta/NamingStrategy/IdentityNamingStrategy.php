@@ -6,7 +6,7 @@ use Doctrine\Common\Annotations\Annotation;
 
 /**
  * @Annotation
- * @Target({"CLASS","ANNOTATION"})
+ * @Annotation\Target({"ANNOTATION"})
  */
 class IdentityNamingStrategy extends AbstractNamingStrategy
 {

@@ -2,8 +2,6 @@
 
 namespace VKMapperBundle\Annotation\MappingMeta\Strategy;
 
-use DataMapper\Type\TypeDict;
-
 /**
  * Class AbstractStrategy
  */

@@ -55,15 +55,5 @@ services:
       alias: DataMapper\MappingRegistry\HydratorRegistry
 
     DataMapper\Hydrator\ArrayCollectionHydrator:
-      calls:
-          - method: setNamingStrategy
-            arguments:
-                - '@DataMapper\NamingStrategy\SnakeCaseNamingStrategy'
-
     DataMapper\Hydrator\ArraySerializableHydrator:
-      calls:
-          - method: setNamingStrategy
-            arguments:
-                - '@DataMapper\NamingStrategy\UnderscoreNamingStrategy'
-
     DataMapper\Hydrator\ObjectHydrator:

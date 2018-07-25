@@ -39,7 +39,7 @@ class ServiceClosureStrategyAdapter implements StrategyInterface
         /** @var \Closure $callback */
         $callback = $this->serviceProvider->{$this->getter}();
         $callback->bindTo($this->serviceProvider);
-        [$originSource, $sourceMappedPropertyName] = $context;
+        [$originSource] = $context;
 
         // User experience improve, change default args order.
         // 1 source - origin data

@@ -2,12 +2,12 @@
 
 namespace Tests\DataFixtures\Dto;
 
-use VKMapperBundle\Annotation\MappingMeta\DestinationClass;
 use VKMapperBundle\Annotation\MappingMeta\EmbeddedClass;
+use VKMapperBundle\Annotation\MappingMeta\SourceClass;
 
 /**
  * Class DtoObjectToObject
- * @DestinationClass
+ * @SourceClass
  */
 class DtoObjectToObject
 {
@@ -16,4 +16,9 @@ class DtoObjectToObject
      * @EmbeddedClass(target="Tests\DataFixtures\Model\Relations\DtoToObjectSourceConvertedProp")
      */
     public $nodeA;
+
+    public function __construct()
+    {
+        $this->nodeA = new DtoObjectToObjectNodeA();
+    }
 }

@@ -8,8 +8,9 @@ use VKMapperBundle\Annotation\MappingMeta\SourceClass;
 
 /**
  * Class ObjectToSnakeCaseArrayDto
- * @SourceClass
- * @SnakeCaseNamingStrategy
+ * @SourceClass(namingStrategies={
+ *     @SnakeCaseNamingStrategy
+ * })
  */
 class ObjectToSnakeCaseArrayDto
 {

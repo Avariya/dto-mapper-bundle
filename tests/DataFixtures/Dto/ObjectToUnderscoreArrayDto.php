@@ -3,11 +3,14 @@
 namespace Tests\DataFixtures\Dto;
 
 use Tests\DataFixtures\Model\Extractor\UnderscoreInnerObject;
+use VKMapperBundle\Annotation\MappingMeta\NamingStrategy\UnderscoreNamingStrategy;
 use VKMapperBundle\Annotation\MappingMeta\SourceClass;
 
 /**
  * Class ObjectToUnderscoreArrayDto
- * @SourceClass
+ * @SourceClass(namingStrategies={
+ *     @UnderscoreNamingStrategy
+ * })
  */
 class ObjectToUnderscoreArrayDto
 {

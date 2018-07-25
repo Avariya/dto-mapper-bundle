@@ -2,30 +2,36 @@
 
 namespace Tests\DataFixtures\Annotation;
 
-use VKMapperBundle\Annotation\MappingMeta\DestinationClass;
+use VKMapperBundle\Annotation\MappingMeta;
+use VKMapperBundle\Annotation\MappingMeta\NamingStrategy;
 use VKMapperBundle\Annotation\MappingMeta\Strategy;
 
 /**
  * Class CompilePassMappedDTO
- * @DestinationClass
+ * @MappingMeta\DestinationClass(namingStrategies={
+ *      @NamingStrategy\MapNamingStrategy(
+ *          convert={
+ *              @NamingStrategy\Map(from="a", to="aa"),
+ *              @NamingStrategy\Map(from="b", to="bb"),
+ *              @NamingStrategy\Map(from="c", to="cc")
+ *          },
+ *          extract={
+ *              @NamingStrategy\Map(from="a", to="aa"),
+ *              @NamingStrategy\Map(from="a", to="aa"),
+ *              @NamingStrategy\Map(from="a", to="aa"),
+ *          }
+ *      )
+ *  })
  */
 class CompilePassMappedDTO
 {
     /**
-     * @Strategy\ChainStrategy(
-     *     list={
-     *          @Strategy\GetterStrategy(method="getMe"),
-     *          @Strategy\XPathStrategy(xPath="some.example.path")
+     * @Strategy\ChainStrategy(list={
+     *   @Strategy\GetterStrategy(method="getMe"),
+     *   @Strategy\XPathStrategy(xPath="some.example.path")
      * })
      */
     public $testPropertyA;
-
-    /**
-     * @Strategy\StrategyRegister(for={
-     *      @Strategy\GetterStrategy(method="getMe")
-     * })
-     */
-    public $testPropertyB;
 
     /**
      * @Strategy\GetterStrategy(method="getMe")
@@ -33,10 +39,7 @@ class CompilePassMappedDTO
     public $testPropertyC;
 
     /**
-     * @Strategy\ServiceClosureStrategy(
-     *     provider="serviceId",
-     *     method="getClosure"
-     * )
+     * @Strategy\ServiceClosureStrategy(provider="serviceId",method="getClosure")
      */
     public $testPropertyD;
 

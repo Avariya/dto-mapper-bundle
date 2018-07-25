@@ -2,32 +2,27 @@
 
 namespace Tests\DataFixtures\Annotation;
 
-use VKMapperBundle\Annotation\MappingMeta\DestinationClass;
-use VKMapperBundle\Annotation\MappingMeta\EmbeddedClass;
+use VKMapperBundle\Annotation\MappingMeta;
 use VKMapperBundle\Annotation\MappingMeta\NamingStrategy;
-use VKMapperBundle\Annotation\MappingMeta\EmbeddedCollection;
 
 /**
  * Class EmbeddedCollectionRoot
  *
- * @DestinationClass
- * @NamingStrategy\NamingRegister(for={
- *     @NamingStrategy\SnakeCaseNamingStrategy,
- *     @NamingStrategy\UnderscoreNamingStrategy(source="class"),
- * })
- * @NamingStrategy\IdentityNamingStrategy(source="object"),
+ * @MappingMeta\DestinationClass(namingStrategies={
+ *      @NamingStrategy\IdentityNamingStrategy(source="object")
+ *  })
  */
 class EmbeddedCollectionRootDTO
 {
     /**
      * @var EmbeddedCollectionNodeDTO
-     * @EmbeddedClass(target="Tests\DataFixtures\Annotation\EmbeddedCollectionNodeDTO")
+     * @MappingMeta\EmbeddedClass(target="Tests\DataFixtures\Annotation\EmbeddedCollectionNodeDTO")
      */
     public $singleNode;
 
     /**
      * @var EmbeddedCollectionNodeDTO[]
-     * @EmbeddedCollection(target="Tests\DataFixtures\Annotation\EmbeddedCollectionNodeDTO")
+     * @MappingMeta\EmbeddedCollection(target="Tests\DataFixtures\Annotation\EmbeddedCollectionNodeDTO")
      */
     public $multiNode = [];
 

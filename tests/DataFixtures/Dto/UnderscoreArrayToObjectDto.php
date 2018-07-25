@@ -5,10 +5,13 @@ namespace Tests\DataFixtures\Dto;
 use Tests\DataFixtures\Model\Extractor\UnderscoreInnerObject;
 use VKMapperBundle\Annotation\MappingMeta\DestinationClass;
 use VKMapperBundle\Annotation\MappingMeta\EmbeddedClass;
+use VKMapperBundle\Annotation\MappingMeta\NamingStrategy\SnakeCaseNamingStrategy;
 
 /**
  * Class UnderscoreArrayToObjectDto
- * @DestinationClass
+ * @DestinationClass(namingStrategies={
+ *      @SnakeCaseNamingStrategy
+ * })
  */
 class UnderscoreArrayToObjectDto
 {

@@ -49,7 +49,7 @@ class RelationsMappingTest extends AbstractMapperTest
     }
 
     /**
-     * @param MappedRelationsNodeInfoDto[] $eventsCollection
+     * @param MappedRelationsNodeInfo[] $eventsCollection
      * @param array                        $eventsParameters
      */
     private function assertContainsEvents(array $eventsCollection, array $eventsParameters): void

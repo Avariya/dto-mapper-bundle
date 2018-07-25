@@ -6,12 +6,15 @@ use VKMapperBundle\Annotation\MappingMeta\DestinationClass;
 use VKMapperBundle\Annotation\MappingMeta\EmbeddedClass;
 use VKMapperBundle\Annotation\MappingMeta\EmbeddedCollection;
 use VKMapperBundle\Annotation\MappingMeta\NamingStrategy\SnakeCaseNamingStrategy;
+
 use Tests\DataFixtures\Model\Relations\MappedRelationsNodeInfo;
 
 /**
- * @DestinationClass
  * Class MappedRelationsRootDto
- * @SnakeCaseNamingStrategy(source="array")
+ *
+ * @DestinationClass(namingStrategies={
+ *    @SnakeCaseNamingStrategy
+ * })
  */
 class MappedRelationsRootDto
 {

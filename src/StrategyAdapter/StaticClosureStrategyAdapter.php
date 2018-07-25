@@ -37,7 +37,7 @@ class StaticClosureStrategyAdapter implements StrategyInterface
     public function hydrate($value, $context)
     {
         $callback = \call_user_func([$this->serviceProvider, $this->getter]);
-        [$originSource, $sourceMappedPropertyName] = $context;
+        [$originSource] = $context;
 
         // User experience improve, change default args order.
         // 1 source - origin data

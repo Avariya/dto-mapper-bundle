@@ -18,7 +18,6 @@ class ChainSource
 
     /**
      * @Strategy\ChainStrategy(
-     *     source="Tests\DataFixtures\Model\Chain\ChainSource",
      *     list={
      *          @Strategy\GetterStrategy(method="getBaseValue"),
      *          @Strategy\StaticClosureStrategy(
