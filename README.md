@@ -32,40 +32,51 @@ return [
 ];
 ```
 
-
 Tag directory with classes that you want add to mapping.
 ```yaml
-Tests\DataFixtures\Dto\:
-resource: '../../DataFixtures/Dto/*'
-tags:
-    - { name: dto_mapper.destination }
+    Tests\DataFixtures\Dto\:
+      resource: '../../DataFixtures/Dto/*'
+      tags:
+        - { name: dto_mapper.destination }
+    
+    Tests\DataFixtures\Model\:
+      resource: '../../DataFixtures/Model/*'
+      tags:
+        - { name: dto_mapper.source }
 ```
 
 Fill in the directory you tagged with annotated classes.
 Class example:
  
 ```php
-
 <?php
 
 namespace Tests\DataFixtures\Dto;
 
+use VKMapperBundle\Annotation\MappingMeta\SourceClass;
 use VKMapperBundle\Annotation\MappingMeta\DestinationClass;
 use VKMapperBundle\Annotation\MappingMeta\Strategy;
 
 /**
- * Class XPathDestinationDto
- * @DestinationClass
+ * @SourceClass
  */
-class XPathDestinationDto
+class Source
 {
     /**
-     * @Strategy\XPathStrategy(
-     *     source="Tests\DataFixtures\Model\XPath\RootSourceObject",
-     *     xPath="nodeA.inner.optionA"
-     * )
+     * @Strategy\XPathStrategy(xPath="nodeA.inner.optionA")
      */
-    public $value;
+    public $nodeA;
+}
+
+/**
+ * @DestinationClass 
+ */
+class Destination
+{
+    /**
+     * Contains value optionA.
+     */
+    public $nodeA;
 }
 ```
 
@@ -102,4 +113,4 @@ $mapper->extract($object);
 ```
 
 ## Documentation
-You can learn more about the bundle possibilities and how to use the **VKMapperBundle** in the [docs](docs).
+You can learn more about the bundle possibilities and how to use the **VKMapperBundle** in the [examples](examples) and in the [docs](docs.deprecated).

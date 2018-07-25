@@ -2,49 +2,49 @@
 
 namespace Tests\DataFixtures\Annotation;
 
-use VKMapperBundle\Annotation\MappingMeta\DestinationClass;
+use VKMapperBundle\Annotation\MappingMeta;
+use VKMapperBundle\Annotation\MappingMeta\NamingStrategy;
 use VKMapperBundle\Annotation\MappingMeta\Strategy;
 
 /**
  * Class CompilePassMappedDTO
- * @DestinationClass
+ * @MappingMeta\DestinationClass(namingStrategies={
+ *      @NamingStrategy\MapNamingStrategy(
+ *          convert={
+ *              @NamingStrategy\Map(from="a", to="aa"),
+ *              @NamingStrategy\Map(from="b", to="bb"),
+ *              @NamingStrategy\Map(from="c", to="cc")
+ *          },
+ *          extract={
+ *              @NamingStrategy\Map(from="a", to="aa"),
+ *              @NamingStrategy\Map(from="a", to="aa"),
+ *              @NamingStrategy\Map(from="a", to="aa"),
+ *          }
+ *      )
+ *  })
  */
 class CompilePassMappedDTO
 {
     /**
-     * @Strategy\ChainStrategy(
-     *     source="testSource",
-     *     list={
-     *          @Strategy\GetterStrategy(method="getMe"),
-     *          @Strategy\XPathStrategy(xPath="some.example.path")
+     * @Strategy\ChainStrategy(list={
+     *   @Strategy\GetterStrategy(method="getMe"),
+     *   @Strategy\XPathStrategy(xPath="some.example.path")
      * })
      */
     public $testPropertyA;
 
     /**
-     * @Strategy\StrategyRegister(for={
-     *      @Strategy\GetterStrategy(source="Tests\DataFixtures\Model\GeneralSource", method="getMe")
-     * })
-     */
-    public $testPropertyB;
-
-    /**
-     * @Strategy\GetterStrategy(source="Tests\DataFixtures\Model\GeneralSource", method="getMe")
+     * @Strategy\GetterStrategy(method="getMe")
      */
     public $testPropertyC;
 
     /**
-     * @Strategy\ServiceClosureStrategy(
-     *     source="Tests\DataFixtures\Model\GeneralSource",
-     *     provider="serviceId",
-     *     method="getClosure"
-     * )
+     * @Strategy\ServiceClosureStrategy(provider="serviceId",method="getClosure")
      */
     public $testPropertyD;
 
     /**
      * @Strategy\StaticClosureStrategy(
-     *     source="Tests\DataFixtures\Model\GeneralSource",
      *     provider="Tests\DataFixtures\Service\ClosureStrategyService",
      *     method="getStaticClosure"
      * )
@@ -52,7 +52,7 @@ class CompilePassMappedDTO
     public $testPropertyE;
 
     /**
-     * @Strategy\XPathStrategy(source="Tests\DataFixtures\Model\GeneralSource", xPath="some.example.path")
+     * @Strategy\XPathStrategy(xPath="some.example.path")
      */
     public $testPropertyF;
 }

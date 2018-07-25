@@ -9,7 +9,7 @@ use VKMapperBundle\Annotation\Exception\InvalidTargetClassException;
  * @Annotation
  * @Annotation\Target("PROPERTY")
  */
-class EmbeddedCollection
+class EmbeddedCollection implements EmbeddedInterface
 {
     /**
      * @Annotation\Required()

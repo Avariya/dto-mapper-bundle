@@ -2,8 +2,6 @@
 
 namespace Tests\DataFixtures\Model\Relations;
 
-use Tests\DataFixtures\Dto\MappedRelationsNodeDto;
-
 /**
  * Class RootSource
  */

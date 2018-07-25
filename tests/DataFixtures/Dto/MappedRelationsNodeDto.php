@@ -17,6 +17,7 @@ class MappedRelationsNodeDto
 
     /**
      * @var MappedRelationsNodeDto
+     *
      * @EmbeddedClass(target="Tests\DataFixtures\Dto\MappedRelationsNodeDto")
      */
     public $nodeA;

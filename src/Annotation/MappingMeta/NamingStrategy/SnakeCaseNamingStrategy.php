@@ -6,7 +6,7 @@ use Doctrine\Common\Annotations\Annotation;
 
 /**
  * @Annotation
- * @Annotation\Target({"CLASS","ANNOTATION"})
+ * @Annotation\Target({"ANNOTATION"})
  */
 class SnakeCaseNamingStrategy extends AbstractNamingStrategy
 {

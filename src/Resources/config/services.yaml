@@ -28,6 +28,16 @@ services:
     DataMapper\Hydrator\HydratorFactoryInterface:
       alias: DataMapper\Hydrator\HydratorFactory
 
+    DataMapper\Strategy\CollectionStrategy:
+      arguments:
+        - '@DataMapper\MapperInterface'
+        - '@DataMapper\MappingRegistry\RelationsRegistryInterface'
+
+    DataMapper\Strategy\SerializerStrategy:
+      arguments:
+        - '@DataMapper\Hydrator\ArrayCollectionHydrator'
+        - '@DataMapper\MappingRegistry\RelationsRegistryInterface'
+
     DataMapper\Mapper:
     DataMapper\MapperInterface:
       alias: DataMapper\Mapper
@@ -44,18 +54,6 @@ services:
     DataMapper\MappingRegistry\HydratorRegistryInterface:
       alias: DataMapper\MappingRegistry\HydratorRegistry
 
-    DataMapper\Hydrator\CollectionHydrator:
-      # default NamingStrategy
-      calls:
-          - method: setNamingStrategy
-            arguments:
-                - '@DataMapper\NamingStrategy\SnakeCaseNamingStrategy'
-
+    DataMapper\Hydrator\ArrayCollectionHydrator:
     DataMapper\Hydrator\ArraySerializableHydrator:
-      # default NamingStrategy
-      calls:
-          - method: setNamingStrategy
-            arguments:
-                - '@DataMapper\NamingStrategy\UnderscoreNamingStrategy'
-
     DataMapper\Hydrator\ObjectHydrator:
