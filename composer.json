@@ -16,7 +16,7 @@
     "symfony/dependency-injection": "^4.0",
     "symfony/config": "^4.0",
     "symfony/proxy-manager-bridge": "^4.0",
-    "vklymniuk/dto-mapper": "dev-develop"
+    "vklymniuk/dto-mapper": "dev-master"
   },
   "require-dev": {
     "phpunit/phpunit": "^7.2",
