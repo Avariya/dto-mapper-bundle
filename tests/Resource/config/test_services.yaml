@@ -12,6 +12,13 @@ services:
   Tests\DataFixtures\Model\Closure\ClosureProvider:
   Tests\DataFixtures\Model\Chain\ChainClosureProvider:
 
+  Tests\DataFixtures\Dto\ObjectToObject\:
+    resource: '../../DataFixtures/Dto/ObjectToObject/*'
+    autowire: true
+    tags:
+        - { name: dto_mapper.destination }
+        - { name: dto_mapper.source }
+
   Tests\DataFixtures\Dto\:
     resource: '../../DataFixtures/Dto/*'
     autowire: true
