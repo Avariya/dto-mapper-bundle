@@ -44,17 +44,9 @@ class MappingCompilePass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container): void
     {
-        try {
-            $this
-                ->registerHydrators($container)
-                ->registerMapping($container);
-        } catch (\Exception $e) {
-            echo 1;
-            var_dump('aaaa');
-            var_dump($e->getMessage());
-            var_dump('aaaa');
-            die;
-        }
+        $this
+            ->registerHydrators($container)
+            ->registerMapping($container);
     }
 
     /**
