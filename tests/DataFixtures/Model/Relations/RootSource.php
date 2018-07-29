@@ -25,4 +25,12 @@ class RootSource
         $this->nodeA = new MappedRelationsNodeInfo();
         $this->nodeB = new MappedRelationsNodeInfo();
     }
+
+    /**
+     * @return string
+     */
+    public function getMe(): string
+    {
+        return 'Done';
+    }
 }

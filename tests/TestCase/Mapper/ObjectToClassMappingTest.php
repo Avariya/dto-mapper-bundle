@@ -17,9 +17,9 @@ class ObjectToClassMappingTest extends AbstractMapperTest
         $source = new RootSource();
         /** @var ObjectToObjectDto $dto */
         $dto = $this->getMapper()->convert($source, ObjectToObjectDto::class);
-
         $this->assertAttributeEquals($source->nodeA, 'nodeA', $dto);
-        $this->assertAttributeEquals($source->nodeB, 'nodeB', $dto);
+        $this->assertAttributeEquals($source->getMe(), 'testMe', $dto);
+        $this->assertAttributeEquals($source->getMe(), 'nodeB', $dto);
     }
 
     /**
@@ -32,6 +32,6 @@ class ObjectToClassMappingTest extends AbstractMapperTest
         $dto = $this->getMapper()->convert($source, $dto);
 
         $this->assertAttributeEquals($source->nodeA, 'nodeA', $dto);
-        $this->assertAttributeEquals($source->nodeB, 'nodeB', $dto);
+        $this->assertAttributeEquals($source->getMe(), 'nodeB', $dto);
     }
 }
