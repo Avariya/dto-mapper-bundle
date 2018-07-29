@@ -95,6 +95,8 @@ class MappingCompilePass implements CompilerPassInterface
             $this
                 ->registerNaming($container, $metaReader, $id)
                 ->registerRelations($container, $metaReader, $id);
+
+            $this->registerDestinationStrategies($container, $metaReader, $id);
         }
 
         /** @var MappingMetaReader $metaReader */
@@ -136,6 +138,43 @@ class MappingCompilePass implements CompilerPassInterface
             }
 
             $strategyKey = TypeResolver::getStrategyType($id, TypeDict::ALL_TYPE);
+            $strategyRegistry->addMethodCall(
+                'registerPropertyStrategy',
+                [
+                    $strategyKey,
+                    $propertyName,
+                    $this->createStrategyDefinition($container, $strategy),
+                ]
+            );
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param ContainerBuilder  $container
+     * @param MappingMetaReader $metaReader
+     * @param string            $id
+     *
+     * @return MappingCompilePass
+     */
+    private function registerDestinationStrategies(
+        ContainerBuilder $container,
+        MappingMetaReader $metaReader,
+        string $id
+    ): self {
+
+        $strategyRegistry = $container->getDefinition(MappingRegistry\StrategyRegistry::class);
+        /**
+         * @var MetaStrategyInterface $strategy
+         */
+        foreach ($metaReader->getPropertiesStrategies() as $propertyName => $strategy) {
+            if (false === $metaReader->isDestination() || empty($strategy->getSource())) {
+                continue;
+            }
+
+
+            $strategyKey = TypeResolver::getStrategyType($strategy->getSource(), $id);
             $strategyRegistry->addMethodCall(
                 'registerPropertyStrategy',
                 [
