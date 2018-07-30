@@ -43,3 +43,4 @@ services:
     DataMapper\Hydrator\ArrayCollectionHydrator:
     DataMapper\Hydrator\ArraySerializableHydrator:
     DataMapper\Hydrator\ObjectHydrator:
+      shared: false

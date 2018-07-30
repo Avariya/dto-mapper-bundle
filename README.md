@@ -37,12 +37,12 @@ Tag directory with classes that you want add to mapping.
     Tests\DataFixtures\Dto\:
       resource: '../../DataFixtures/Dto/*'
       tags:
-        - { name: dto_mapper.destination }
+        - { name: dto_mapper.annotated }
     
     Tests\DataFixtures\Model\:
       resource: '../../DataFixtures/Model/*'
       tags:
-        - { name: dto_mapper.source }
+        - { name: dto_mapper.annotated }
 ```
 
 Fill in the directory you tagged with annotated classes.
