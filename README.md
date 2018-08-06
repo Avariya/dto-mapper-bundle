@@ -32,6 +32,17 @@ return [
 ];
 ```
 
+Add to composer.json file to reduce doctrine annotation autoloader issues.
+```json
+    {
+      "scripts": {
+        "post-install-cmd": [
+          "composer dump-autoload"
+        ]
+      }
+    }
+```
+
 Tag directory with classes that you want add to mapping.
 ```yaml
     Tests\DataFixtures\Dto\:
