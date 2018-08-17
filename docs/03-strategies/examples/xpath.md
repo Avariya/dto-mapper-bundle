@@ -1,5 +1,3 @@
-
-
 # @Annotation - XPath Strategy
 
 Recursive value search in inner object properties.
@@ -11,20 +9,31 @@ Example:
 
 use VKMapperBundle\Annotation\MappingMeta\DestinationClass;
 use VKMapperBundle\Annotation\MappingMeta\Strategy;
+use VKMapperBundle\Annotation\MappingMeta\SourceClass;
 
 class InnerObject
 {
     private $innerProp = 10;
 }
 
+/**
+ * Class XPathDestinationDto
+ * @SourceClass
+ */
 class SourceObject
 {
-    private $inner;
+    /**
+     * @Strategy\XPathStrategy(
+     *     source="SourceObject",
+     *     xPath="inner.innerProp"
+     * )
+     */
+     private $inner;
     
-    public function __construct()
-    {
+     public function __construct()
+     {
         $this->inner = new InnerObject();
-    }
+     }
 }
 
 /**
@@ -33,12 +42,6 @@ class SourceObject
  */
 class XPathDestinationDto
 {
-    /**
-     * @Strategy\XPathStrategy(
-     *     source="SourceObject",
-     *     xPath="inner.innerProp"
-     * )
-     */
     public $destinationProperty;
 }
 

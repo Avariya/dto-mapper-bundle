@@ -12,6 +12,7 @@ VKMapperBundle uses customized performance strategies:
  * Converts `Object` to `array`
  * Extracts `Object` to `array`
  * Puts data from `array` into `Object`
+ 
 
 ## Installation
 
@@ -32,17 +33,6 @@ return [
 ];
 ```
 
-Add to composer.json file to reduce doctrine annotation autoloader issues.
-```json
-    {
-      "scripts": {
-        "post-install-cmd": [
-          "composer dump-autoload"
-        ]
-      }
-    }
-```
-
 Tag directory with classes that you want add to mapping.
 ```yaml
     Tests\DataFixtures\Dto\:
@@ -55,7 +45,7 @@ Tag directory with classes that you want add to mapping.
       tags:
         - { name: dto_mapper.annotated }
 ```
-
+ 
 Fill in the directory you tagged with annotated classes.
 Class example:
  
@@ -123,5 +113,6 @@ use DataMapper\MapperInterface;
 $mapper->extract($object);
 ```
 
+
 ## Documentation
-You can learn more about the bundle possibilities and how to use the **VKMapperBundle** in the [examples](examples) and in the [docs](docs.deprecated).
+You can learn more about the bundle possibilities and how to use the **VKMapperBundle** in the [examples](doc) and in the [docs](docs.deprecated).

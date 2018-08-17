@@ -7,7 +7,7 @@ use VKMapperBundle\Annotation\MappingMeta\DestinationClass;
 use VKMapperBundle\Annotation\MappingMeta\EmbeddedClass;
 
 /**
- * Default naming strategy for array to object convertion is SnakeCaseNamingStrategy
+ * Default naming strategy for array to object convertion for is SnakeCaseNamingStrategy
  * 
  * @DestinationClass()
  */

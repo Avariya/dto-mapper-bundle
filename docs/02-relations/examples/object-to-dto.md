@@ -12,7 +12,7 @@ use DataMapper\MapperInterface;
 
 /**
  * Class DtoObjectToObject
- * @DestinationClass()
+ * @DestinationClass
  */
 class ArrayToDto
 {
