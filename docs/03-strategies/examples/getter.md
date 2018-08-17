@@ -50,3 +50,5 @@ $dto = $mapper->convert(new SourceObject(), GetterDestinationDto::class);
 echo $dto->sum; // 20
 
 ```
+
+[back](..)

@@ -1,4 +1,3 @@
-
 # Naming Strategy annotations
 
 ## Use naming strategy to format properties/keys.
@@ -81,3 +80,8 @@ $arr = $mapper->extract($obj);
 \print_r($arr); // ['some_key_a' => 1, 'some_key_b' => 2]
 
 ```
+
+[format-keys](examples/format-keys.md)
+[renaming-keys](examples/renaming-keys.md)
+
+[back](..)

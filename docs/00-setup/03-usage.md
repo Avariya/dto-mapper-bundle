@@ -31,3 +31,5 @@ use DataMapper\MapperInterface;
 /** @var MapperInterface $mapper */
 $mapper->extract($object);
 ```
+
+[back](..)

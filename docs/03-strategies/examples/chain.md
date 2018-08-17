@@ -102,3 +102,5 @@ $dto = $mapper->convert(new SourceObject(), ResultDto::class);
 echo $dto->result; // 100
 
 ```
+
+[back](..)

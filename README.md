@@ -115,4 +115,4 @@ $mapper->extract($object);
 
 
 ## Documentation
-You can learn more about the bundle possibilities and how to use the **VKMapperBundle** in the [examples](doc) and in the [docs](docs.deprecated).
+You can learn more about the bundle possibilities and how to use the **VKMapperBundle** in the [docs](docs).

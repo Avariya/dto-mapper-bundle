@@ -63,3 +63,5 @@ $dto = $mapper->convert(new ClosureSource(), ResultDto::class);
 echo $dto->result; // 125
 
 ```
+
+[back](..)
