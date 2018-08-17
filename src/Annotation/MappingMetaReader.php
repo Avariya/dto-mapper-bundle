@@ -2,11 +2,9 @@
 
 namespace VKMapperBundle\Annotation;
 
-use VKMapperBundle\Annotation\Exception\DestinationClassException;
+use VKMapperBundle\Annotation\Exception\AnnotationMappingException;
 use VKMapperBundle\Annotation\MappingMeta\Strategy;
 use VKMapperBundle\Annotation\MappingMeta;
-
-use Doctrine\Common\Annotations\Reader;
 
 /**
  * Class MappingMetaReader
@@ -14,7 +12,7 @@ use Doctrine\Common\Annotations\Reader;
 class MappingMetaReader
 {
     /**
-     * @var Reader
+     * @var AnnotationReaderInterface
      */
     private $reader;
 
@@ -26,7 +24,7 @@ class MappingMetaReader
     /**
      * @var bool
      */
-    private $skip = true;
+    private $skip;
 
     /**
      * @var null|MappingMeta\DestinationClass
@@ -39,27 +37,27 @@ class MappingMetaReader
     private $destination;
 
     /**
-     * @throws DestinationClassException
+     * @throws AnnotationMappingException
      *
-     * @param Reader $reader
+     * @param AnnotationReaderInterface $reader
      * @param string $className
      *
      * @return MappingMetaReader
      */
-    public static function createReader(Reader $reader, string $className): self
+    public static function createReader(AnnotationReaderInterface $reader, string $className): self
     {
         return new self($reader, $className);
     }
 
     /**
-     * @throws DestinationClassException
+     * @throws AnnotationMappingException
      *
      * MappingMetaReader constructor.
      *
-     * @param Reader $reader
+     * @param AnnotationReaderInterface $reader
      * @param string $className
      */
-    private function __construct(Reader $reader, string $className)
+    private function __construct(AnnotationReaderInterface $reader, string $className)
     {
         $this->reader = $reader;
         $this->reflectionClass = new \ReflectionClass($className);
@@ -72,15 +70,22 @@ class MappingMetaReader
             MappingMeta\SourceClass::class
         );
 
+        $needSkip = null !== $this->reader->getClassAnnotation(
+            $this->reflectionClass,
+            MappingMeta\MappedClass::class
+        );
+
         if (null !== $destination) {
-            $this->skip = false;
+            $needSkip = false;
             $this->destination = $destination;
         }
 
         if (null !== $source) {
-            $this->skip = false;
+            $needSkip = false;
             $this->source = $source;
         }
+
+        $this->skip = $needSkip;
     }
 
     /**
@@ -188,14 +193,16 @@ class MappingMetaReader
 
     /**
      * Is class mapped
-     * @throws DestinationClassException
+     *
+     * @throws AnnotationMappingException
      */
     public function validate(): void
     {
         if (true === $this->skip()) {
-            throw new DestinationClassException(
+            throw new AnnotationMappingException(
                 $this->reflectionClass->getName() .
-                ' class - is not registered, please use DestinationClass or SourceClass annotations on class.'
+                ' class - is not registered, please mark your class with one of base annotations: ' .
+                '@DestinationClass, @SourceClass, @MappedClass.'
             );
         }
     }

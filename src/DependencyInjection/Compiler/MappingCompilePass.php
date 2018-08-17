@@ -11,6 +11,7 @@ use VKMapperBundle\Annotation\MappingMeta\EmbeddedInterface;
 use VKMapperBundle\Annotation\MappingMeta\NamingStrategy;
 use VKMapperBundle\Annotation\MappingMeta\NamingStrategy\Map;
 use VKMapperBundle\Annotation\MappingMeta\NamingStrategy\NamingStrategyInterface;
+use VKMapperBundle\Hydrator\GeneratedHydratorCache;
 use VKMapperBundle\StrategyAdapter\StaticClosureStrategyAdapter;
 use VKMapperBundle\StrategyAdapter\ServiceClosureStrategyAdapter;
 use VKMapperBundle\Annotation\MappingMetaReader;
@@ -18,7 +19,6 @@ use VKMapperBundle\Annotation\AnnotationReaderInterface;
 use VKMapperBundle\Annotation\MappingMeta\Strategy as MetaStrategy;
 use VKMapperBundle\Annotation\MappingMeta\Strategy\StrategyInterface as MetaStrategyInterface;
 
-use DataMapper\Strategy\CollectionStrategy;
 use DataMapper\Strategy;
 use DataMapper\Hydrator\ArrayCollectionHydrator;
 use DataMapper\MappingRegistry;
@@ -44,6 +44,7 @@ class MappingCompilePass implements CompilerPassInterface
     public function process(ContainerBuilder $container): void
     {
         $this
+            ->cleanupCache($container)
             ->registerHydrators($container)
             ->registerMapping($container);
     }
@@ -82,7 +83,7 @@ class MappingCompilePass implements CompilerPassInterface
      */
     private function registerMapping(ContainerBuilder $container): self
     {
-        $destinationRegistry = $container->getDefinition(MappingRegistry\DestinationRegistry::class);
+        $classMappingRegistry = $container->getDefinition(MappingRegistry\ClassMappingRegistry::class);
 
         /** @var MappingMetaReader $metaReader */
         foreach ($this->loadMapping($container) as $id => $metaReader) {
@@ -90,18 +91,12 @@ class MappingCompilePass implements CompilerPassInterface
                 continue;
             }
 
-            if (true === $metaReader->isDestination()) {
-                $destinationRegistry->addMethodCall('registerDestinationClass', [$id]);
-            }
-
-            if (true === $metaReader->isSource()) {
-                $destinationRegistry->addMethodCall('registerDestinationClass', [$id]);
-            }
-
+            $classMappingRegistry->addMethodCall('registerMappingClass', [$id]);
             $this
                 ->registerNaming($container, $metaReader, $id)
                 ->registerRelations($container, $metaReader, $id)
-                ->registerStrategies($container, $metaReader, $id);
+                ->registerStrategies($container, $metaReader, $id)
+                ->generateClassCache($container, $id);
         }
 
         return $this;
@@ -151,20 +146,17 @@ class MappingCompilePass implements CompilerPassInterface
 
     /**
      * @param ContainerBuilder  $container
-     * @param MappingMetaReader $metaReader
+     * @param MappingMetaReader $reader
      * @param string            $id
      *
      * @return MappingCompilePass
      */
-    private function registerRelations(
-        ContainerBuilder $container,
-        MappingMetaReader $metaReader,
-        string $id
-    ): self {
+    private function registerRelations(ContainerBuilder $container, MappingMetaReader $reader, string $id): self
+    {
         $strategyRegistry = $container->getDefinition(MappingRegistry\StrategyRegistry::class);
 
         /** @var EmbeddedInterface $embedded */
-        foreach ($metaReader->getRelationsProperties() as $propertyName => $embedded) {
+        foreach ($reader->getRelationsProperties() as $propertyName => $embedded) {
             $strategy = new Definition(
                 Strategy\CollectionStrategy::class,
                 [
@@ -174,7 +166,7 @@ class MappingCompilePass implements CompilerPassInterface
                 ]
             );
 
-            if ($metaReader->isSource()) {
+            if ($reader->isSource()) {
                 $strategyKey = TypeResolver::getStrategyType($id, TypeDict::ALL_TYPE);
                 $strategyRegistry->addMethodCall(
                     'registerPropertyStrategy',
@@ -186,7 +178,7 @@ class MappingCompilePass implements CompilerPassInterface
                 );
             }
 
-            if ($metaReader->isDestination()) {
+            if ($reader->isDestination()) {
                 $strategyKey = TypeResolver::getStrategyType(TypeDict::ARRAY_TYPE, $id);
                 $strategyRegistry->addMethodCall(
                     'registerPropertyStrategy',
@@ -219,11 +211,8 @@ class MappingCompilePass implements CompilerPassInterface
      *
      * @return MappingCompilePass
      */
-    private function registerNaming(
-        ContainerBuilder $container,
-        MappingMetaReader $reader,
-        string $id
-    ): self {
+    private function registerNaming(ContainerBuilder $container, MappingMetaReader $reader, string $id): self
+    {
         $namingStrategyRegistry = $container->getDefinition(MappingRegistry\NamingStrategyRegistry::class);
 
         $hasDefaultSource = false;
@@ -292,41 +281,41 @@ class MappingCompilePass implements CompilerPassInterface
         switch (\get_class($strategy)) {
             case MetaStrategy\GetterStrategy::class:
                 return (
-                new Definition(
-                    Strategy\GetterStrategy::class,
-                    [
-                        $strategy->getMethod()
-                    ]
-                )
+                    new Definition(
+                        Strategy\GetterStrategy::class,
+                        [
+                            $strategy->getMethod()
+                        ]
+                    )
                 )->setLazy(true);
             case MetaStrategy\PropertyFormatterStrategy::class:
                 return (
-                new Definition(
-                    Strategy\FormatterStrategy::class,
-                    [
-                        $strategy->getMethod()
-                    ]
-                )
+                    new Definition(
+                        Strategy\FormatterStrategy::class,
+                        [
+                            $strategy->getMethod()
+                        ]
+                    )
                 )->setLazy(true);
             case MetaStrategy\XPathStrategy::class:
                 return (
-                new Definition(
-                    Strategy\XPathGetterStrategy::class,
-                    [
-                        new Reference(ArrayCollectionHydrator::class),
-                        $strategy->getXPath(),
-                    ]
-                )
+                    new Definition(
+                        Strategy\XPathGetterStrategy::class,
+                        [
+                            new Reference(ArrayCollectionHydrator::class),
+                            $strategy->getXPath(),
+                        ]
+                    )
                 )->setLazy(true);
             case MetaStrategy\StaticClosureStrategy::class:
                 return (
-                new Definition(
-                    StaticClosureStrategyAdapter::class,
-                    [
-                        $strategy->getProvider(),
-                        $strategy->getMethod(),
-                    ]
-                )
+                    new Definition(
+                        StaticClosureStrategyAdapter::class,
+                        [
+                            $strategy->getProvider(),
+                            $strategy->getMethod(),
+                        ]
+                    )
                 )->setLazy(true);
             case MetaStrategy\ChainStrategy::class:
                 $args = [];
@@ -335,20 +324,20 @@ class MappingCompilePass implements CompilerPassInterface
                 }
 
                 return (
-                new Definition(
-                    Strategy\ChainStrategy::class,
-                    [$args]
-                )
+                    new Definition(
+                        Strategy\ChainStrategy::class,
+                        [$args]
+                    )
                 )->setLazy(true);
             case MetaStrategy\ServiceClosureStrategy::class:
                 return (
-                new Definition(
-                    ServiceClosureStrategyAdapter::class,
-                    [
-                        new Reference($strategy->getProvider()),
-                        $strategy->getMethod(),
-                    ]
-                )
+                    new Definition(
+                        ServiceClosureStrategyAdapter::class,
+                        [
+                            new Reference($strategy->getProvider()),
+                            $strategy->getMethod(),
+                        ]
+                    )
                 )->setLazy(true);
         }
     }
@@ -407,9 +396,39 @@ class MappingCompilePass implements CompilerPassInterface
      */
     private function createReaderFor(ContainerBuilder $container, string $className): MappingMetaReader
     {
-        /** @var AnnotationReaderInterface $reader */
-        $reader = $container->get(AnnotationReaderInterface::class);
+        return MappingMetaReader::createReader(
+            $container->get(AnnotationReaderInterface::class),
+            $className
+        );
+    }
 
-        return MappingMetaReader::createReader($reader, $className);
+
+    /**
+     * @param ContainerBuilder $container
+     *
+     * @return MappingCompilePass
+     * @throws \Exception
+     */
+    private function cleanupCache(ContainerBuilder $container): self
+    {
+        $hydratorCache = $container->get(GeneratedHydratorCache::class);
+        $hydratorCache->cleanup();
+
+        return $this;
+    }
+
+    /**
+     * @param ContainerBuilder $container
+     * @param string           $id
+     *
+     * @return MappingCompilePass
+     * @throws \Exception
+     */
+    private function generateClassCache(ContainerBuilder $container, string $id): self
+    {
+        $hydratorCache = $container->get(GeneratedHydratorCache::class);
+        $hydratorCache->generateClass($id);
+
+        return $this;
     }
 }

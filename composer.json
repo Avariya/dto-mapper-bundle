@@ -1,7 +1,7 @@
 {
   "name": "vklymniuk/dto-mapper-bundle",
-  "type": "symfony-bundle",
-  "description": "Symfony bundle, easy way to convert data.",
+  "type": "library",
+  "description": "Symfony mapper bundle, easy way to convert data.",
   "license": "MIT",
   "authors": [
     {
@@ -11,14 +11,15 @@
   ],
   "require": {
     "php": "^7.2",
-    "indigophp/doctrine-annotation-autoload": "^0.1.0",
     "symfony/http-kernel": "^4.0",
     "symfony/dependency-injection": "^4.0",
     "symfony/config": "^4.0",
     "symfony/proxy-manager-bridge": "^4.0",
-    "vklymniuk/dto-mapper": "^0.1"
+    "vklymniuk/dto-mapper": "dev-master",
+    "doctrine/annotations": "^1.6"
   },
   "require-dev": {
+    "roave/security-advisories": "dev-master",
     "phpunit/phpunit": "^7.2",
     "symfony/framework-bundle": "^4.0",
     "symfony/yaml": "^4.0"
@@ -33,23 +34,23 @@
   },
   "keywords": [
     "php",
+    "object conversion",
+    "serializer",
     "mapper",
     "dto",
+    "dto mapper",
     "dto-mapper",
     "symfony",
     "serialization",
+    "annotations",
+    "doctrine annotations",
     "hydrator",
     "performance",
     "deserialization",
     "array conversion",
-    "object conversion",
-    "serializer",
     "deserialization"
   ],
   "scripts": {
-    "test": "phpunit -c tests/phpunit.xml tests/",
-    "post-install-cmd": [
-      "composer dump-autoload"
-    ]
+    "test": "phpunit -c tests/phpunit.xml tests/"
   }
 }

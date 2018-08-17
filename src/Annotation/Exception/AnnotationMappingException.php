@@ -5,7 +5,7 @@ namespace VKMapperBundle\Annotation\Exception;
 /**
  * Class InvalidTargetClassException
  */
-final class DestinationClassException extends \InvalidArgumentException
+final class AnnotationMappingException extends \InvalidArgumentException
 {
 
 }

@@ -6,6 +6,8 @@ use VKMapperBundle\Annotation\MappingMeta\NamingStrategy\NamingStrategyInterface
 use Doctrine\Common\Annotations\Annotation;
 
 /**
+ * Use this mapping to customize fields naming.
+ *
  * @Annotation
  * @Annotation\Target("CLASS")
  */

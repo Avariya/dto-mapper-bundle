@@ -5,7 +5,7 @@ namespace VKMapperBundle\Annotation\Exception;
 /**
  * Class UndeclaredPropertyException
  */
-class UndeclaredPropertyException extends \LogicException
+final class UndeclaredPropertyException extends \LogicException
 {
 
 }

@@ -4,9 +4,21 @@ services:
         autoconfigure: true
         public: true
 
+    VKMapperBundle\Hydrator\GeneratedHydratorCache:
+      arguments:
+        $cacheDir: '%kernel.cache_dir%'
+
     Doctrine\Common\Annotations\AnnotationReader:
+
+    VKMapperBundle\Annotation\AnnotationReader:
+      $reader: '@Doctrine\Common\Annotations\AnnotationReader'
+
     VKMapperBundle\Annotation\AnnotationReaderInterface:
-      alias: Doctrine\Common\Annotations\AnnotationReader
+      alias: VKMapperBundle\Annotation\AnnotationReader
+
+    DataMapper\MappingRegistry\ClassMappingRegistry:
+    DataMapper\MappingRegistry\ClassMappingRegistryInterface:
+      alias: DataMapper\MappingRegistry\ClassMappingRegistry
 
     DataMapper\MappingRegistry\NamingStrategyRegistry:
     DataMapper\MappingRegistry\NamingStrategyRegistryInterface:
