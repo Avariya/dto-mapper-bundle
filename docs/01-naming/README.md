@@ -81,7 +81,7 @@ $arr = $mapper->extract($obj);
 
 ```
 
-[format-keys](examples/format-keys.md)
-[renaming-keys](examples/renaming-keys.md)
+- [format-keys](examples/format-keys.md)
+- [renaming-keys](examples/renaming-keys.md)
 
 [back](..)

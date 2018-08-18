@@ -60,11 +60,11 @@ echo $dto->destinationProperty; // 10
 
 ```
 
-[chain](examples/chain.md)
-[formatter](examples/formatter.md)
-[getter](examples/getter.md)
-[service-closure](examples/service-closure.md)
-[static-closure](examples/static-closure.md)
-[xpath](examples/xpath.md)
+- [chain](examples/chain.md)
+- [formatter](examples/formatter.md)
+- [getter](examples/getter.md)
+- [service-closure](examples/service-closure.md)
+- [static-closure](examples/static-closure.md)
+- [xpath](examples/xpath.md)
 
 [back](..)

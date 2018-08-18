@@ -7,7 +7,7 @@ Use this annotation to convert array to single common object.
 
 Use this annotation to convert array to collection with common objects.
 
-[array-to-dto](examples/array-to-dto.md)
-[object-to-dto](examples/object-to-dto.md)
+- [array-to-dto](examples/array-to-dto.md)
+- [object-to-dto](examples/object-to-dto.md)
 
 [back](..)
