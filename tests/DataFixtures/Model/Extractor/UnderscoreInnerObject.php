@@ -2,13 +2,11 @@
 
 namespace Tests\DataFixtures\Model\Extractor;
 
-use VKMapperBundle\Annotation\MappingMeta\DestinationClass;
-use VKMapperBundle\Annotation\MappingMeta\SourceClass;
+use VKMapperBundle\Annotation\MappingMeta\MappedClass;
 
 /**
  * Class UnderscoreInnerObject
- * @DestinationClass
- * @SourceClass
+ * @MappedClass()
  */
 class UnderscoreInnerObject
 {

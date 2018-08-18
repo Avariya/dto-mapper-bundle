@@ -14,18 +14,15 @@ services:
 
   Tests\DataFixtures\Dto\ObjectToObject\:
     resource: '../../DataFixtures/Dto/ObjectToObject/*'
-    autowire: true
     tags:
         - { name: dto_mapper.annotated }
 
   Tests\DataFixtures\Dto\:
     resource: '../../DataFixtures/Dto/*'
-    autowire: true
     tags:
         - { name: dto_mapper.annotated }
 
   Tests\DataFixtures\Model\:
-    resource: '../../DataFixtures/Model/*/*'
-    autowire: true
+    resource: '../../DataFixtures/Model/*'
     tags:
         - { name: dto_mapper.annotated }

@@ -4,7 +4,6 @@ namespace Tests\TestCase\Mapper;
 
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use DataMapper\MapperInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Class AbstractMapperTest
@@ -12,15 +11,10 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 abstract class AbstractMapperTest extends KernelTestCase
 {
     /**
-     * @var MapperInterface
      */
-    private $mapper;
-
-    public function setUp()/* The :void return type declaration that should be here would cause a BC issue */
+    public function setUp(): void
     {
-        parent::setUp();
-        $kernel = self::bootKernel();
-        $this->mapper = $kernel->getContainer()->get(MapperInterface::class);
+        self::bootKernel();
     }
 
     /**
@@ -28,6 +22,6 @@ abstract class AbstractMapperTest extends KernelTestCase
      */
     protected function getMapper(): MapperInterface
     {
-        return $this->mapper;
+        return self::$container->get(MapperInterface::class);
     }
 }

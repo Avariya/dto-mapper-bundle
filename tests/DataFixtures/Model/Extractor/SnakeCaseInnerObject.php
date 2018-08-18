@@ -2,8 +2,11 @@
 
 namespace Tests\DataFixtures\Model\Extractor;
 
+use VKMapperBundle\Annotation\MappingMeta\MappedClass;
+
 /**
  * Class SnakeCaseInnerObject
+ * @MappedClass()
  */
 class SnakeCaseInnerObject
 {

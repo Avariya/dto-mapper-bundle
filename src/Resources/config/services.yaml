@@ -1,17 +1,18 @@
+parameters:
+    dto.mapper.cache_dir: '%kernel.cache_dir%/dto-mapper'
+
 services:
     _defaults:
         autowire: true
         autoconfigure: true
         public: true
 
-    VKMapperBundle\Hydrator\GeneratedHydratorCache:
-      arguments:
-        $cacheDir: '%kernel.cache_dir%'
-
-    Doctrine\Common\Annotations\AnnotationReader:
+    VKMapperBundle\Annotation\MappingMeta\:
+        autowire: false
+        resource: '../../Annotation/MappingMeta/*'
 
     VKMapperBundle\Annotation\AnnotationReader:
-      $reader: '@Doctrine\Common\Annotations\AnnotationReader'
+      $reader: '@Doctrine\Common\Annotations\Reader'
 
     VKMapperBundle\Annotation\AnnotationReaderInterface:
       alias: VKMapperBundle\Annotation\AnnotationReader
@@ -51,6 +52,17 @@ services:
     DataMapper\MappingRegistry\HydratorRegistry:
     DataMapper\MappingRegistry\HydratorRegistryInterface:
       alias: DataMapper\MappingRegistry\HydratorRegistry
+
+    DataMapper\Hydrator\HydratedClassesFactory:
+      arguments:
+        $targetDir: '%dto.mapper.cache_dir%'
+
+    VKMapperBundle\Hydrator\GeneratedHydratorCache:
+      arguments:
+        $filesystem: '@Symfony\Component\Filesystem\Filesystem'
+        $hydratedClassesFactory: '@DataMapper\Hydrator\HydratedClassesFactory'
+        $cacheDir: '%dto.mapper.cache_dir%'
+
 
     DataMapper\Hydrator\ArrayCollectionHydrator:
     DataMapper\Hydrator\ArraySerializableHydrator:

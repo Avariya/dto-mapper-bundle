@@ -3,29 +3,51 @@
 namespace VKMapperBundle\Hydrator;
 
 use DataMapper\Hydrator\HydratedClassesFactory;
-use Symfony\Component\Cache\Simple\FilesystemCache;
+use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * Class GeneratedHydratorCache
  */
 class GeneratedHydratorCache
 {
-    private const CACHE_NAMESPACE = 'dto-mapper';
+    /**
+     * @var Filesystem
+     */
+    private $filesystem;
 
     /**
-     * @var FilesystemCache
+     * @var string
      */
-    private $fileCache;
+    private $cacheDir;
+
+    /**
+     * @var HydratedClassesFactory
+     */
+    private $hydratedClassesFactory;
 
     /**
      * GeneratedHydratorCache constructor.
      *
-     * @param string $cacheDir
+     * @param Filesystem             $filesystem
+     * @param string                 $cacheDir
+     * @param HydratedClassesFactory $hydratedClassesFactory
      */
-    public function __construct(string $cacheDir)
+    public function __construct(
+        Filesystem $filesystem,
+        HydratedClassesFactory $hydratedClassesFactory,
+        string $cacheDir
+    ) {
+        $this->cacheDir = $cacheDir;
+        $this->filesystem= $filesystem;
+        $this->hydratedClassesFactory = $hydratedClassesFactory;
+    }
+
+    /**
+     * Hello
+     */
+    public function createStorage(): void
     {
-        $this->fileCache = new FilesystemCache(self::CACHE_NAMESPACE, 0, $cacheDir);
-        HydratedClassesFactory::setGeneratedClassesTargetDir($cacheDir . '/' . self::CACHE_NAMESPACE);
+        $this->filesystem->mkdir($this->cacheDir);
     }
 
     /**
@@ -33,7 +55,8 @@ class GeneratedHydratorCache
      */
     public function cleanup(): void
     {
-        $this->fileCache->clear();
+        $this->filesystem->remove($this->cacheDir);
+        $this->createStorage();
     }
 
     /**
@@ -41,6 +64,6 @@ class GeneratedHydratorCache
      */
     public function generateClass(string $className): void
     {
-        HydratedClassesFactory::createHydratedClass($className);
+        $this->hydratedClassesFactory->extractHydratedClass($className);
     }
 }
