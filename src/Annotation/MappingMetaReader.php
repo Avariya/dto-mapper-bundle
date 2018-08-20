@@ -70,7 +70,7 @@ class MappingMetaReader
             MappingMeta\SourceClass::class
         );
 
-        $needSkip = null !== $this->reader->getClassAnnotation(
+        $needSkip = null === $this->reader->getClassAnnotation(
             $this->reflectionClass,
             MappingMeta\MappedClass::class
         );
