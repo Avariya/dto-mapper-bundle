@@ -339,6 +339,17 @@ class MappingCompilePass implements CompilerPassInterface
                         ]
                     )
                 )->setLazy(true);
+            case MetaStrategy\EmbeddedCollectionStrategy::class:
+                return (
+                new Definition(
+                    Strategy\CollectionStrategy::class,
+                    [
+                        new Reference(MapperInterface::class),
+                        $strategy->getTarget(),
+                        $strategy->isMulti(),
+                    ]
+                )
+                )->setLazy(true);
         }
     }
 
