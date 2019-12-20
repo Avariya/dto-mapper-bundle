@@ -1,6 +1,6 @@
 # Symfony dto-mapper-bundle
 
-[![Build Status](https://travis-ci.org/vklymniuk/dto-mapper-bundle.svg?branch=develop)](https://travis-ci.org/vklymniuk/dto-mapper-bundle)
+[![Build Status](https://travis-ci.org/Miles-Morales13/dto-mapper-bundle.svg?branch=master)](https://travis-ci.org/Miles-Morales13/dto-mapper-bundle)
 
 ## Why use VKMapperBundle?
 Bundle makes the process of binding all your data mapping rules a lot more easy by providing annotation declarations.
